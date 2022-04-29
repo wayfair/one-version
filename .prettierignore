@@ -1,0 +1,6 @@
+package.json
+.github
+.yarn
+dist
+*.md
+coverage

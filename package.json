@@ -1,0 +1,23 @@
+{
+  "name": "@wayfair/one-version",
+  "version": "0.0.0",
+  "description": "Opinionated Monorepo Dependency Management CLI",
+  "main": "index.js",
+  "repository": "git@github.com:wayfair-incubator/one-version.git",
+  "author": "finn-orsini <orsini.seraphina@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "jest --passWithNoTests",
+    "lint": "eslint src/**/*.js",
+    "lint:md": "markdownlint **/*.md --ignore node_modules",
+    "format": "prettier --write src/**/*.js",
+    "format:check": "prettier --check src/**/*.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "jest": "^28.0.3",
+    "markdownlint-cli": "^0.31.1",
+    "prettier": "^2.6.2"
+  }
+}
