@@ -1,0 +1,24 @@
+name: "publish to NPM"
+on:
+  push:
+    tags: ["*"]
+
+jobs:
+  publish:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn
+      - run: yarn test
+
+      - id: "publish"
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - if: steps.publish.outputs.type != 'none'
+        run: |
+          echo "Published new version: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"

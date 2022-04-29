@@ -1,94 +1,153 @@
-# Open Source Project Template
+<div align="center">
 
-[![Release](https://img.shields.io/github/v/release/wayfair-incubator/oss-template?display_name=tag)](CHANGELOG.md)
-[![Lint](https://github.com/wayfair-incubator/oss-template/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/wayfair-incubator/oss-template/actions/workflows/lint.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/wayfair-incubator/one-version?display_name=tag)](CHANGELOG.md)
+[![license: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![Maintainer](https://img.shields.io/badge/Maintainer-Wayfair-7F187F)](https://wayfair.github.io)
 
-## Before You Start
+</div>
 
-As much as possible, we have tried to provide enough tooling to get you up and running quickly and with a minimum of effort. This includes sane defaults for documentation; templates for bug reports, feature requests, and pull requests; and [GitHub Actions](https://github.com/features/actions) that will automatically manage stale issues and pull requests. This latter defaults to labeling issues and pull requests as stale after 60 days of inactivity, and closing them after 7 additional days of inactivity. These [defaults](.github/workflows/stale.yml) and more can be configured. For configuration options, please consult the documentation for the [stale action](https://github.com/actions/stale).
 
-In trying to keep this template as generic and reusable as possible, there are some things that were omitted out of necessity and others that need a little tweaking. Before you begin developing in earnest, there are a few changes that need to be made.
+<h2 align="center">@wayfair/one-version</h2>
+<div align="center" >
+<i>One Version to rule them all, One Version to find them,
 
-- [ ] Select an appropriate license for your project. This can easily be achieved through the 'Add File' button on the GitHub UI, naming the file `LICENSE`, and selecting your desired license from the provided list.
-- [ ] Update the `<License name>` placeholder in this file to reflect the name of the license you selected above
-- [ ] Replace `[INSERT CONTACT METHOD]` in [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) with a suitable communication channel
-- [ ] Change references to `org_name` to the name of the org your repo belongs to (eg. `wayfair-incubator`)
-  - [ ] In [`README.md`](README.md)
-  - [ ] In [`CONTRIBUTING.md`](CONTRIBUTING.md)
-- [ ] Change references to `repo_name` to the name of your new repo
-  - [ ] In [`README.md`](README.md)
-  - [ ] In [`CONTRIBUTING.md`](CONTRIBUTING.md)
-- [ ] Update the link to the contribution guidelines to point to your project
-  - [ ] In [`.github/ISSUE_TEMPLATE/BUG_REPORT.md`](.github/ISSUE_TEMPLATE/BUG_REPORT.md)
-  - [ ] In [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md)
-- [ ] Replace the `<project name>` placeholder with the name of your project
-  - [ ] In [`CONTRIBUTING.md`](CONTRIBUTING.md)
-  - [ ] In [`SECURITY.md`](SECURITY.md)
-- [ ] Add names and contact information for actual project maintainers to [`MAINTAINERS.md`](MAINTAINERS.md)
-- [ ] Delete the content of [`CHANGELOG.md`](CHANGELOG.md). We encourage you to [keep a changelog](https://keepachangelog.com/en/1.0.0/).
-- [ ] Replace the generic content in this file with the relevant details about your project
-- [ ] Delete this section of the README
+One Version to bring them all, and in the darkness bind them.<sup>1</sup>
+</i>
 
-## About The Project
+</div>
 
-Provide some information about what the project is/does.
+<h3 align="center">Opinionated Monorepo Dependency Management CLI</h3>
+
+
+**🚨 Enforcement**: Require all workspaces in a monorepo to conform to the [One-Version rule](#one-version-rule).
+
+**📦 Supports multiple package managers**: Support for `yarn` and `pnpm` workspaces.
+
+**💥 Coordinated upgrades**: Coming Soon!
+
+---
+
+## Table Of Contents
+
+- [One-Version Rule](#one-version-rule)
+- [Getting Started](#getting-started)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
+
+## One-Version Rule
+
+#### What
+
+This package implements a version of Google's `One-Version Rule`:
+
+> For every dependency in [a] repository, there must be only one version of that dependency to choose.<sup>2</sup>
+
+Please refer to the [implementation notes](./ONE-VERSION.md) for our specific evaluation criteria.
+
+There is some overlap between this tool and [experimental yarn constraints](https://yarnpkg.com/features/constraints), without requiring use of a particular package manager.
+
+#### Why
+
+Dependency management can be [challenging](https://en.wikipedia.org/wiki/Dependency_hell), regardless of repository structure or language.
+
+#### Further Reading
+
+If you're interested in learning more about some Javascript specific package manager details, we highly recommend the following:
+
+- [Rush: node_modules history](https://rushjs.io/pages/advanced/phantom_deps/#some-history-and-some-theory)
+- [Rush: Phantom dependencies](https://rushjs.io/pages/advanced/phantom_deps/#phantom-dependencies)
+- [Rush: NPM doppelgangers](https://rushjs.io/pages/advanced/npm_doppelgangers/)
 
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
 
-### Prerequisites
+Install `@wayfair/one-version` at the workspace root using yarn:
 
-This is an example of how to list things you need to use the software and how to install them.
+```
+yarn add --dev -w @wayfair/one-version
+```
 
-- npm
+Or pnpm:
 
-  ```sh
-  npm install npm@latest -g
-  ```
+```
+pnpm add -save-dev -w @wayfair/one-version
+```
 
-### Installation
+Add the following section to your package.json:
 
-1. Clone the repo
+```json
+{
+  "scripts": {
+    "one-version:check": "one-version check -p ${yarn | pnpm}"
+  }
+}
 
-   ```sh
-   git clone https://github.com/org_name/repo_name.git
-   ```
+```
 
-2. Install NPM packages
+The `-p` flag is not required if using `pnpm`.
 
-   ```sh
-   npm install
-   ```
+Run `yarn one-version:check` or `pnpm run one-version:check`.
 
-## Usage
+If the repo is compliant, the tool will print this message:
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+```
+✨ One Version Rule Success - found no version conflicts!
+```  
 
-_For more examples, please refer to the [Documentation](https://example.com) or the [Wiki](https://github.com/org_name/repo_name/wiki)_
+If the repo is not compliant, you will see a version of this message:
 
-## Roadmap
+```
+🚫 One Version Rule Failure - found multiple versions of the following dependencies:
 
-See the [open issues](https://github.com/org_name/repo_name/issues) for a list of proposed features (and known issues).
+prettier
+  2.1.2
+    dev: @wayfair/app-a, @wayfair/app-b
+  ^2.3.2
+    dev: @wayfair/app-c
+  2.2.1
+    dev: @wayfair/lib-a
+```
+
+## Configuration
+
+The behavior of `@wayfair/one-version` can be configured by a `one-version.config.json` at the root of the repository.
+
+The only configuration this currently supports is an object of dependency `overrides`. This may be useful while performing major upgrades.
+
+```js
+
+"overrides": {
+  dependency: {
+    versionSpecifier: [workspaceA, workspaceB]
+  }
+}
+```
+
+For example, the below config will allow `app-A` and `lib-L` to specify `react@^16.9`, even if the rest of the repo specifies `react@^17`.
+
+```json
+{
+  "overrides": {
+    "react": {
+      "^16.9": ["app-A", "lib-L"]
+    }
+  }
+}
+```
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. For detailed contributing guidelines, please see [CONTRIBUTING.md](CONTRIBUTING.md)
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated** 💜. For contributing guidelines, please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-Distributed under the `<License name>` License. See `LICENSE` for more information.
+Distributed under the `MIT` License. See `LICENSE` for more information.
 
-## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
+---
 
-Project Link: [https://github.com/org_name/repo_name](https://github.com/org_name/repo_name)
+`1`: J.R.R. Tolkien, 1954. Mostly.
 
-## Acknowledgements
-
-This template was adapted from
-[https://github.com/othneildrew/Best-README-Template](https://github.com/othneildrew/Best-README-Template).
+`2`: [Software Engineering At Google](https://abseil.io/resources/swe_at_google.2.pdf) - Winters, Manshreck and Wright, 2020, p. 341
