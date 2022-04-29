@@ -38,27 +38,14 @@ One Version to bring them all, and in the darkness bind them.<sup>1</sup>
 
 ## One-Version Rule
 
-#### What
-
 This package implements a version of Google's `One-Version Rule`:
 
 > For every dependency in [a] repository, there must be only one version of that dependency to choose.<sup>2</sup>
 
-Please refer to the [implementation notes](./ONE-VERSION.md) for our specific evaluation criteria.
+Please refer to the [implementation notes](ONE-VERSION.md) for our specific evaluation criteria.
 
 There is some overlap between this tool and [experimental yarn constraints](https://yarnpkg.com/features/constraints), without requiring use of a particular package manager.
 
-#### Why
-
-Dependency management can be [challenging](https://en.wikipedia.org/wiki/Dependency_hell), regardless of repository structure or language.
-
-#### Further Reading
-
-If you're interested in learning more about some Javascript specific package manager details, we highly recommend the following:
-
-- [Rush: node_modules history](https://rushjs.io/pages/advanced/phantom_deps/#some-history-and-some-theory)
-- [Rush: Phantom dependencies](https://rushjs.io/pages/advanced/phantom_deps/#phantom-dependencies)
-- [Rush: NPM doppelgangers](https://rushjs.io/pages/advanced/npm_doppelgangers/)
 
 ## Getting Started
 
@@ -151,3 +138,5 @@ Distributed under the `MIT` License. See `LICENSE` for more information.
 `1`: J.R.R. Tolkien, 1954. Mostly.
 
 `2`: [Software Engineering At Google](https://abseil.io/resources/swe_at_google.2.pdf) - Winters, Manshreck and Wright, 2020, p. 341
+
+`3`: Winters et al, 2020, p. 342
