@@ -10,7 +10,7 @@ Yarn workspaces contain a single, flat lockfile at the repository root. The lock
 
 In the below snippet there are two lockfile entries for the same dependency, `@babel/code-frame`. The resolved version depends on the version specifier requested, i.e. `^7.16.0` will resolve to `7.16.2`, but `^7.14.5` and `^7.0.0` will resolve to `7.15.8`.
 
-```
+```text
 "@babel/code-frame:^7.16.0":
   version: 7.16.2
   ...
@@ -31,13 +31,13 @@ This library has chosen to use the second method described. This avoids the need
 
 ### PNPM
 
-** Note **: This is still under development.
+**Note**: This is still under development.
 
 `pnpm` also utilizes a single lockfile at the repository root, but unlike `yarn`, this lockfile is not flat - the entries are nested for each workspace.
 
 The below snippet shows the resolutions of two workspaces in a repo, both of which specify the same version of the example package `@wayfair/ui`, `^8`.
 
-```
+```yml
 
 apps/workspace-a:
   specifiers:
@@ -53,7 +53,6 @@ apps/workspace-b:
 ```
 
 Although using the same specifier, the entries resolve to two different versions - `8.0.0` and `8.0.1`. Thus, for `pnpm` workspaces, it is not sufficient to only check that the manifest version specifiers match across a workspace. The lockfile must also be read to validate that the resolved versions match.
-
 
 ### Notes
 

@@ -7,7 +7,6 @@
 
 </div>
 
-
 <h2 align="center">@wayfair/one-version</h2>
 <div align="center" >
 <i>One Version to rule them all, One Version to find them,
@@ -18,7 +17,6 @@ One Version to bring them all, and in the darkness bind them.<sup>1</sup>
 </div>
 
 <h3 align="center">Opinionated Monorepo Dependency Management CLI</h3>
-
 
 **🚨 Enforcement**: Require all workspaces in a monorepo to conform to the [One-Version rule](#one-version-rule).
 
@@ -46,19 +44,17 @@ Please refer to the [implementation notes](ONE-VERSION.md) for our specific eval
 
 There is some overlap between this tool and [experimental yarn constraints](https://yarnpkg.com/features/constraints), without requiring use of a particular package manager.
 
-
 ## Getting Started
-
 
 Install `@wayfair/one-version` at the workspace root using yarn:
 
-```
+```bash
 yarn add --dev -w @wayfair/one-version
 ```
 
 Or pnpm:
 
-```
+```bash
 pnpm add -save-dev -w @wayfair/one-version
 ```
 
@@ -79,13 +75,13 @@ Run `yarn one-version:check` or `pnpm run one-version:check`.
 
 If the repo is compliant, the tool will print this message:
 
-```
+```text
 ✨ One Version Rule Success - found no version conflicts!
 ```  
 
 If the repo is not compliant, you will see a version of this message:
 
-```
+```text
 🚫 One Version Rule Failure - found multiple versions of the following dependencies:
 
 prettier
@@ -131,7 +127,6 @@ Contributions are what make the open source community such an amazing place to l
 ## License
 
 Distributed under the `MIT` License. See `LICENSE` for more information.
-
 
 ---
 

@@ -19,23 +19,23 @@ any real-time space (eg. Slack, Discord, etc).
 
 - [Fork the repo](https://help.github.com/articles/fork-a-repo/) and create your branch from main
 
-```
-$ git clone https://github.com/<your_username>/one-version
-$ cd one-version
-$ git checkout -b my_branch
+```bash
+git clone https://github.com/<your_username>/one-version
+cd one-version
+git checkout -b my_branch
 ```
 
 Note: Replace <your_username> with your GitHub username
 
 - Install dependencies by running
 
-```
-$ yarn
+```bash
+yarn
 ```
 
 - Run jest tests by running
 
-```
+```bash
 yarn test
 ```
 
@@ -47,9 +47,7 @@ yarn test
   - A brief description of the change has been added to the `[Unreleased]` section of the `CHANGELOG.md`, optionally linking to a related issue
   - When applicable, the PR description links to the issue which describes the bug and/or feature the PR resolves
 
-
 We expect pull requests to include automated tests for any changed behavior. We will do our best to review, merge & release changes in a timely manner. However - since we follow semantic versioning, proposed breaking changes may not be merged until the next major release.
-
 
 ## Reporting Issues
 
@@ -59,7 +57,6 @@ When creating a new issue, please use the issue creation form and include as muc
 
 **If you discover a security bug, please do not report it through GitHub. Instead, please see security procedures in
 [SECURITY.md](SECURITY.md).**
-
 
 ## Other Ways to Contribute
 
