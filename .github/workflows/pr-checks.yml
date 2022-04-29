@@ -53,6 +53,7 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: lint
         run: yarn lint
+      - name: markdown lint
         run: yarn lint:md
 
   prettier:
