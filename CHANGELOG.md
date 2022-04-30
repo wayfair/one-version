@@ -13,8 +13,14 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🔨 Chores & Documentation
 
+## [0.1.0] - 2022-04-29
+
+#### 🚀 New Features & Enhancements
+
+- Initial package. Full yarn support.
+
 ## [0.0.0] - 2022-04-29
 
 #### 🔨 Chores & Documentation
 
-- Initial package & repo setup, empty release
+- Initial repo setup, empty release

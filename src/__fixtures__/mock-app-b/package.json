@@ -1,0 +1,14 @@
+{
+  "name": "mock-app-b",
+  "version": "1.0.0",
+  "type": "module",
+  "devDependencies": {
+    "cypress": "^2"
+  },
+  "dependencies": {
+    "eslint": "7.0.1",
+    "jest": "^26.5",
+    "react": "^17",
+    "react-dom": "16"
+  }
+}
