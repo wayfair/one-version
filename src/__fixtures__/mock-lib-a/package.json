@@ -1,0 +1,12 @@
+{
+  "name": "mock-lib-a",
+  "version": "1.2.0",
+  "type": "module",
+  "devDependencies": {
+    "cypress": "^2"
+  },
+  "peerDependencies": {
+    "react": "^17",
+    "react-dom": "17"
+  }
+}
