@@ -2,13 +2,13 @@ const {
   getPackageDeps,
   findDuplicateDependencies,
   transformDependencies,
-} = require('../shared/util');
-const {getWorkspaces} = require('./get-workspaces');
+} = require("../shared/util");
+const { getWorkspaces } = require("./get-workspaces");
 
-const checkYarn = ({overrides, getPackageRoots = getWorkspaces}) => {
+const checkYarn = ({ overrides, getPackageRoots = getWorkspaces }) => {
   const workspaces = getPackageRoots();
 
-  const packageDeps = workspaces.map(({path}) => getPackageDeps(path));
+  const packageDeps = workspaces.map(({ path }) => getPackageDeps(path));
 
   const dependenciesByNameAndVersion = transformDependencies(packageDeps);
 
@@ -16,7 +16,7 @@ const checkYarn = ({overrides, getPackageRoots = getWorkspaces}) => {
     dependenciesByNameAndVersion,
     overrides
   );
-  return {duplicateDependencies};
+  return { duplicateDependencies };
 };
 
-module.exports = {checkYarn};
+module.exports = { checkYarn };

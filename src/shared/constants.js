@@ -1,13 +1,13 @@
-const CONFIG_FILE = 'oneversion.config.json';
+const CONFIG_FILE = "oneversion.config.json";
 
 const DEPENDENCY_TYPES = {
-  DIRECT: 'direct',
-  PEER: 'peer',
-  DEV: 'dev',
+  DIRECT: "direct",
+  PEER: "peer",
+  DEV: "dev",
 };
 
 const FAILED_CHECK_ERROR =
-  'More than one version of dependencies found. See above output.';
+  "More than one version of dependencies found. See above output.";
 const NO_CHECK_API_ERROR = `'check' api not supported for package manager:`;
 
 module.exports = {

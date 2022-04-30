@@ -2,8 +2,8 @@ const {
   getPackageDeps,
   findDuplicateDependencies,
   transformDependencies,
-} = require('../shared/util');
-const {getWorkspaces} = require('./get-workspaces');
+} = require("../shared/util");
+const { getWorkspaces } = require("./get-workspaces");
 
 /**
  * TODO
@@ -12,9 +12,9 @@ const {getWorkspaces} = require('./get-workspaces');
  * to be updated to check lockfiles as well (hence why it has been separated
  *  from the yarn api)
  */
-const checkPnpm = ({overrides, getPackageRoots = getWorkspaces}) => {
+const checkPnpm = ({ overrides, getPackageRoots = getWorkspaces }) => {
   const workspaces = getPackageRoots();
-  const packageDeps = workspaces.map(({path}) => getPackageDeps(path));
+  const packageDeps = workspaces.map(({ path }) => getPackageDeps(path));
 
   const dependenciesByNameAndVersion = transformDependencies(packageDeps);
 
@@ -22,7 +22,7 @@ const checkPnpm = ({overrides, getPackageRoots = getWorkspaces}) => {
     dependenciesByNameAndVersion,
     overrides
   );
-  return {duplicateDependencies};
+  return { duplicateDependencies };
 };
 
-module.exports = {checkPnpm};
+module.exports = { checkPnpm };

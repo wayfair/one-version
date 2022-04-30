@@ -1,6 +1,6 @@
-const {readFileSync, existsSync} = require('fs');
-const path = require('path');
-const {DEPENDENCY_TYPES, CONFIG_FILE} = require('./constants');
+const { readFileSync, existsSync } = require("fs");
+const path = require("path");
+const { DEPENDENCY_TYPES, CONFIG_FILE } = require("./constants");
 
 /**
  * Parse a config file if it exists
@@ -8,8 +8,8 @@ const {DEPENDENCY_TYPES, CONFIG_FILE} = require('./constants');
 const parseConfig = (configFilePath = CONFIG_FILE) => {
   const configPath = path.join(process.cwd(), configFilePath);
   const configContents = existsSync(configPath)
-    ? readFileSync(configPath, {encoding: 'utf-8'})
-    : '{}';
+    ? readFileSync(configPath, { encoding: "utf-8" })
+    : "{}";
   return JSON.parse(configContents);
 };
 
@@ -17,19 +17,18 @@ const parseConfig = (configFilePath = CONFIG_FILE) => {
  * Read the manifest at a specified path, return only the fields we care about
  */
 const getPackageDeps = (packageRoot) => {
-  const packageContents = readFileSync(path.join(packageRoot, 'package.json'), {
-    encoding: 'utf8',
+  const packageContents = readFileSync(path.join(packageRoot, "package.json"), {
+    encoding: "utf8",
   });
-  const {name, peerDependencies, devDependencies, dependencies} = JSON.parse(
-    packageContents
-  );
-  return {name, peerDependencies, devDependencies, dependencies};
+  const { name, peerDependencies, devDependencies, dependencies } =
+    JSON.parse(packageContents);
+  return { name, peerDependencies, devDependencies, dependencies };
 };
 
 /**
  * Creates or updates the version dependencies for a given package
  */
-const addOrUpdateVersion = ({seenVersions, type, version, consumerName}) => {
+const addOrUpdateVersion = ({ seenVersions, type, version, consumerName }) => {
   const seenConsumers = seenVersions?.[version]?.[type] || [];
   const versionConsumers = seenConsumers.concat(consumerName);
   return {
@@ -67,7 +66,7 @@ const transformDependencies = (manifests) => {
   return manifests.reduce(
     (
       acc,
-      {name: consumerName, dependencies, peerDependencies, devDependencies}
+      { name: consumerName, dependencies, peerDependencies, devDependencies }
     ) => {
       if (dependencies) {
         Object.entries(dependencies).forEach(([packageName, version]) => {
@@ -108,9 +107,9 @@ const transformDependencies = (manifests) => {
 /**
  * Removes overridden dependencies from the versions arrays
  */
-const removeOverriddenDependencies = ({packageOverrides, versions}) => {
+const removeOverriddenDependencies = ({ packageOverrides, versions }) => {
   return Object.entries(versions)
-    .map(([version, {direct, peer, dev}]) => {
+    .map(([version, { direct, peer, dev }]) => {
       const filteredPackages = {};
       const notOverridden = (packageName) =>
         !packageOverrides[version]?.includes(packageName);
