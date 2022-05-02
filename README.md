@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Release](https://img.shields.io/github/v/release/wayfair-incubator/one-version?display_name=tag)](CHANGELOG.md)
+[![Release](https://img.shields.io/github/v/release/wayfair/one-version?display_name=tag)](CHANGELOG.md)
 [![license: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![Maintainer](https://img.shields.io/badge/Maintainer-Wayfair-7F187F)](https://wayfair.github.io)

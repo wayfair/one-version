@@ -1,4 +1,4 @@
-<!-- Please check the contributing guide before entering PRs: https://github.com/wayfair-incubator/one-version/blob/main/CONTRIBUTING.md -->
+<!-- Please check the contributing guide before entering PRs: https://github.com/wayfair/one-version/blob/main/CONTRIBUTING.md -->
 
 ## Description
 
