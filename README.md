@@ -133,5 +133,3 @@ Distributed under the `MIT` License. See `LICENSE` for more information.
 `1`: J.R.R. Tolkien, 1954. Mostly.
 
 `2`: [Software Engineering At Google](https://abseil.io/resources/swe_at_google.2.pdf) - Winters, Manshreck and Wright, 2020, p. 341
-
-`3`: Winters et al, 2020, p. 342
