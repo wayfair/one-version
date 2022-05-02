@@ -13,6 +13,13 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🔨 Chores & Documentation
 
+## [0.1.1] - 2022-05-01
+
+#### 🐛 Bug Fixes
+
+- Fix bug in cli program name after package rename
+- Republish with new public repo settings
+
 ## [0.1.0] - 2022-04-29
 
 #### 🚀 New Features & Enhancements
