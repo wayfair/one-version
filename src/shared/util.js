@@ -43,7 +43,7 @@ const addOrUpdateVersion = ({ seenVersions, type, version, consumerName }) => {
 /**
 Transform dependencies from an array of package json formats, i.e. multiple
 {
-  name: "@wayfair/sf-ui-layout",
+  name: "packageName",
   dependencies: {
     'react': '^18'
   }
@@ -51,7 +51,7 @@ Transform dependencies from an array of package json formats, i.e. multiple
 into an inverted structure organized by each dependency name, version, and type:
 {
   react: {
-    '^18': {direct: [ '@wayfair/sf-ui-layout' ], peer: ['demo-package']},
+    '^18': {direct: [ 'packageName' ], peer: ['demo-package']},
     '^17': {direct: [ 'demo', 'platform-capabilities' ]}
   },
 }
