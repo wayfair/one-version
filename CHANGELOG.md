@@ -13,6 +13,13 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🔨 Chores & Documentation
 
+## [0.1.2] - 2022-05-01
+
+#### 🔨 Chores & Documentation
+
+- Add `files` config to pjson, removes unnecessary files from published package
+- Update node `engines` config to allow for `^16` and `^18`
+
 ## [0.1.1] - 2022-05-01
 
 #### 🐛 Bug Fixes
