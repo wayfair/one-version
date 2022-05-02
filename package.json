@@ -7,7 +7,7 @@
   "engines": {
     "node": "^14"
   },
-  "repository": "git@github.com:wayfair-incubator/one-version.git",
+  "repository": "git@github.com:wayfair/one-version.git",
   "author": "finn-orsini <orsini.seraphina@gmail.com>",
   "license": "MIT",
   "private": false,
