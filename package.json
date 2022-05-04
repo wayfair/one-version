@@ -11,7 +11,7 @@
   "author": "finn-orsini <orsini.seraphina@gmail.com>",
   "license": "MIT",
   "private": false,
-  "files": ["src/**/*.js", "!src/**/*.test.js"],
+  "files": ["src/**/*.js", "!src/**/*.test.js", "!src/__fixtures__/**/*"],
   "scripts": {
     "test": "jest",
     "lint": "eslint src/**/*.js",

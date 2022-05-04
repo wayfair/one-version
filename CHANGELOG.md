@@ -13,6 +13,12 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🔨 Chores & Documentation
 
+## [0.1.3] - 2022-05-03
+
+#### 🔨 Chores & Documentation
+
+- Remove fixtures dir from published package
+
 ## [0.1.2] - 2022-05-01
 
 #### 🔨 Chores & Documentation
