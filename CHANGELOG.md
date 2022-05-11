@@ -9,6 +9,8 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🚀 New Features & Enhancements
 
+- Support setting a package manager in the config file
+
 #### 🐛 Bug Fixes
 
 #### 🔨 Chores & Documentation
