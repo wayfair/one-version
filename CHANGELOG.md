@@ -7,6 +7,8 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 💥 Breaking Changes
 
+- No longer defaults package manager to pnpm if no flag is passed 
+
 #### 🚀 New Features & Enhancements
 
 - Support setting a package manager in the config file
