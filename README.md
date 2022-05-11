@@ -97,15 +97,28 @@ prettier
 
 The behavior of `@wayfair/one-version` can be configured by a `one-version.config.json` at the root of the repository.
 
-The only configuration this currently supports is an object of dependency `overrides`. This may be useful while performing major upgrades.
+### Supported config options:
 
-```js
+#### overrides (optional, object)
 
+This may be useful while performing major upgrades. Overrides lets workspaces opt out of the one-version rule.
+
+#### packageManager (optional, string)
+
+This is used to specify the package manager for the workspace. If the `-p` or `--packageManager` argument is included in the command __it will take precedence__ over this value.
+
+Supported values: `pnpm`, `yarn`
+
+
+### Examples:
+
+```json
 "overrides": {
-  dependency: {
-    versionSpecifier: [workspaceA, workspaceB]
+  "dependency": {
+    "versionSpecifier": ["workspaceA", "workspaceB"]
   }
-}
+},
+"packageManager": "pnpm"
 ```
 
 For example, the below config will allow `app-A` and `lib-L` to specify `react@^16.9`, even if the rest of the repo specifies `react@^17`.

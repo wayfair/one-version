@@ -22,15 +22,16 @@ const getCheckPackageApi = (packageManager) => {
 };
 
 const check = ({
-  packageManager,
+  packageManager: packageManagerFlag,
   getConfig = parseConfig,
   getCheckApi = getCheckPackageApi,
   prettify = format,
 } = {}) => {
+  const { overrides, packageManager: packageManagerConfig } = getConfig();
+  const packageManager = packageManagerFlag || packageManagerConfig;
+
   const checkApi = getCheckApi(packageManager);
   if (checkApi) {
-    const { overrides } = getConfig();
-
     const { duplicateDependencies } = checkApi({
       overrides,
     });
