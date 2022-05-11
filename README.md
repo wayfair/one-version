@@ -97,18 +97,19 @@ prettier
 
 The behavior of `@wayfair/one-version` can be configured by a `one-version.config.json` at the root of the repository.
 
-### Supported config options:
+### Supported Options:
 
 #### overrides (optional, object)
 
-This may be useful while performing major upgrades. Overrides lets workspaces opt out of the one-version rule.
+Overrides lets workspaces opt out of the one-version rule. This may be useful while performing major upgrades.
 
 #### packageManager (optional, string)
 
-This is used to specify the package manager for the workspace. If the `-p` or `--packageManager` argument is included in the command __it will take precedence__ over this value.
+Used to specify the package manager for the workspace. 
+
+_Note: If the `-p` or `--packageManager` argument is included in the command it will take precedence over this value_.
 
 Supported values: `pnpm`, `yarn`
-
 
 ### Examples:
 
