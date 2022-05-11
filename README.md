@@ -114,12 +114,14 @@ Supported values: `pnpm`, `yarn`
 ### Examples
 
 ```json
-"overrides": {
-  "dependency": {
-    "versionSpecifier": ["workspaceA", "workspaceB"]
-  }
-},
-"packageManager": "pnpm"
+{
+  "overrides": {
+    "dependency": {
+      "versionSpecifier": ["workspaceA", "workspaceB"]
+    }
+  },
+  "packageManager": "pnpm"
+}
 ```
 
 For example, the below config will allow `app-A` and `lib-L` to specify `react@^16.9`, even if the rest of the repo specifies `react@^17`.
