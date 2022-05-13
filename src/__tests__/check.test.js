@@ -2,6 +2,7 @@ const { check } = require("../check");
 const {
   NO_CHECK_API_ERROR,
   FAILED_CHECK_ERROR,
+  UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR,
 } = require("../shared/constants");
 
 const packageManager = "fake-package-manager";
@@ -14,10 +15,26 @@ const mockGetConfig = () => ({
 const mockGetMissingPackageApi = () => {};
 
 describe("one-version: check", () => {
-  it("throws if package manager specified does not have check api", () => {
+  it("throws if package manager is not supported", () => {
+    const mockDetectPackageManager = jest.fn();
+    mockDetectPackageManager.mockReturnValue("");
+
     expect(() => {
       check({
-        packageManager,
+        getPackageManager: mockDetectPackageManager,
+        getConfig: mockGetConfig,
+        getCheckApi: mockGetMissingPackageApi,
+      });
+    }).toThrow(`${UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR}`);
+  });
+
+  it("throws if package manager detected does not have check api", () => {
+    const mockDetectPackageManager = jest.fn();
+    mockDetectPackageManager.mockReturnValue(packageManager);
+
+    expect(() => {
+      check({
+        getPackageManager: mockDetectPackageManager,
         getConfig: mockGetConfig,
         getCheckApi: mockGetMissingPackageApi,
       });
@@ -25,11 +42,14 @@ describe("one-version: check", () => {
   });
 
   it("calls check api if found for package manager", () => {
+    const mockDetectPackageManager = jest.fn();
+    mockDetectPackageManager.mockReturnValue(packageManager);
+
     const mockCheckApi = jest.fn();
     mockCheckApi.mockReturnValue({ duplicateDependencies: [] });
 
     check({
-      packageManager,
+      getPackageManager: mockDetectPackageManager,
       getConfig: mockGetConfig,
       getCheckApi: () => mockCheckApi,
     });
@@ -38,43 +58,19 @@ describe("one-version: check", () => {
   });
 
   it("throws if check api finds duplicate dependencies", () => {
+    const mockDetectPackageManager = jest.fn();
+    mockDetectPackageManager.mockReturnValue(packageManager);
+
     const mockCheckApi = jest.fn();
     mockCheckApi.mockReturnValue({ duplicateDependencies: ["foo"] });
 
     expect(() => {
       check({
-        packageManager,
+        getPackageManager: mockDetectPackageManager,
         getConfig: mockGetConfig,
         getCheckApi: () => mockCheckApi,
         prettify: () => {},
       });
     }).toThrow(FAILED_CHECK_ERROR);
-  });
-
-  it("-p, --packageManager flags take precedence over the config value", () => {
-    const getCheckApi = jest.fn();
-
-    expect(() => {
-      check({
-        packageManager,
-        getConfig: mockGetConfig,
-        getCheckApi,
-      });
-    }).toThrow(`${NO_CHECK_API_ERROR} ${packageManager}`);
-
-    expect(getCheckApi).toHaveBeenCalledWith(packageManager);
-  });
-
-  it("use the config specified package manager if no flag is used", () => {
-    const getCheckApi = jest.fn();
-
-    expect(() => {
-      check({
-        getConfig: mockGetConfig,
-        getCheckApi,
-      });
-    }).toThrow(`${NO_CHECK_API_ERROR} ${otherPackageManager}`);
-
-    expect(getCheckApi).toHaveBeenCalledWith(otherPackageManager);
   });
 });

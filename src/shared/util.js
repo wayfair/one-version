@@ -1,6 +1,6 @@
 const { readFileSync, existsSync } = require("fs");
 const path = require("path");
-const { DEPENDENCY_TYPES, CONFIG_FILE } = require("./constants");
+const { DEPENDENCY_TYPES, CONFIG_FILE, LOCKFILES } = require("./constants");
 
 /**
  * Parse a config file if it exists
@@ -155,9 +155,22 @@ const findDuplicateDependencies = (dependencies, overrides) => {
     .filter(([, versions]) => Object.keys(versions).length > 1);
 };
 
+/**
+ * Detect the package manager being used by the project
+ */
+const detectPackageManager = (lockfiles = LOCKFILES) => {
+  for (const [packageManager, lockfile] of Object.entries(lockfiles)) {
+    if (existsSync(lockfile)) {
+      return packageManager;
+    }
+  }
+  return "";
+};
+
 module.exports = {
   parseConfig,
   getPackageDeps,
   transformDependencies,
   findDuplicateDependencies,
+  detectPackageManager,
 };

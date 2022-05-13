@@ -2,7 +2,14 @@ const {
   getPackageDeps,
   transformDependencies,
   findDuplicateDependencies,
+  detectPackageManager,
 } = require("../util");
+const fs = require("fs");
+
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'),
+  existsSync: jest.fn(),
+}));
 
 const MOCK_TRANSFORMED_DEPENDENCIES = {
   eslint: { "7.0.1": { direct: ["mock-app-a", "mock-app-b", "mock-app-c"] } },
@@ -117,5 +124,23 @@ describe("findDuplicateDependencies", () => {
         },
       ],
     ]);
+  });
+
+  it("returns pnpm if pnpm-lock.yml exists", () => {
+    fs.existsSync.mockReturnValueOnce(true);
+    const packageManager = detectPackageManager({pnpm: "pnpm-lock.yaml",});
+    expect(packageManager).toBe('pnpm');
+  });
+
+  it("returns pnpm if yarn.lock exists", () => {
+    fs.existsSync.mockReturnValueOnce(true);
+    const packageManager = detectPackageManager({yarn: "yarn.lock"});
+    expect(packageManager).toBe('yarn');
+  });
+
+  it("returns empty if package manager is not detected", () => {
+    fs.existsSync.mockReturnValueOnce(true);
+    const packageManager = detectPackageManager({});
+    expect(packageManager).toBe('');
   });
 });

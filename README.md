@@ -103,14 +103,6 @@ The behavior of `@wayfair/one-version` can be configured by a `one-version.confi
 
 Overrides lets workspaces opt out of the one-version rule. This may be useful while performing major upgrades.
 
-#### packageManager (optional, string)
-
-Used to specify the package manager for the workspace.
-
-_Note: If the `-p` or `--packageManager` argument is included in the command it will take precedence over this value_.
-
-Supported values: `pnpm`, `yarn`
-
 ### Examples
 
 ```json
@@ -119,8 +111,7 @@ Supported values: `pnpm`, `yarn`
     "dependency": {
       "versionSpecifier": ["workspaceA", "workspaceB"]
     }
-  },
-  "packageManager": "pnpm"
+  }
 }
 ```
 
