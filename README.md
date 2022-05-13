@@ -63,13 +63,11 @@ Add the following section to your package.json:
 ```json
 {
   "scripts": {
-    "one-version:check": "one-version check -p ${yarn | pnpm}"
+    "one-version:check": "one-version check"
   }
 }
 
 ```
-
-The `-p` flag is not required if using `pnpm`.
 
 Run `yarn one-version:check` or `pnpm run one-version:check`.
 
