@@ -9,7 +9,6 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🚀 New Features & Enhancements
 
-
 #### 🐛 Bug Fixes
 
 #### 🔨 Chores & Documentation
