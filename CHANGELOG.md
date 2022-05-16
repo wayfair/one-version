@@ -9,11 +9,16 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🚀 New Features & Enhancements
 
-- Detect package manager based on lockfile
 
 #### 🐛 Bug Fixes
 
 #### 🔨 Chores & Documentation
+
+## [0.2.0] - 2022-05-16
+
+#### 🚀 New Features & Enhancements
+
+- Detect package manager based on lockfile
 
 ## [0.1.3] - 2022-05-03
 
