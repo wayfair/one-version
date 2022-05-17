@@ -3,11 +3,12 @@ Enforcing only one version of any direct dependency is specified in the repo.
 Note: Currently enforces the specifications match exactly, i.e. `^17` != `17`.
 */
 const chalk = require("chalk");
-const { parseConfig } = require("./shared/util");
+const { parseConfig, detectPackageManager } = require("./shared/util");
 const { format } = require("./format-output");
 const { checkYarn } = require("./yarn/check");
 const { checkPnpm } = require("./pnpm/check");
 const {
+  UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR,
   FAILED_CHECK_ERROR,
   NO_CHECK_API_ERROR,
 } = require("./shared/constants");
@@ -22,15 +23,20 @@ const getCheckPackageApi = (packageManager) => {
 };
 
 const check = ({
-  packageManager,
+  getPackageManager = detectPackageManager,
   getConfig = parseConfig,
   getCheckApi = getCheckPackageApi,
   prettify = format,
 } = {}) => {
+  const { overrides } = getConfig();
+
+  const packageManager = getPackageManager();
+  if (!packageManager) {
+    throw new Error(UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR);
+  }
+
   const checkApi = getCheckApi(packageManager);
   if (checkApi) {
-    const { overrides } = getConfig();
-
     const { duplicateDependencies } = checkApi({
       overrides,
     });

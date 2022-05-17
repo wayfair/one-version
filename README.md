@@ -63,13 +63,11 @@ Add the following section to your package.json:
 ```json
 {
   "scripts": {
-    "one-version:check": "one-version check -p ${yarn | pnpm}"
+    "one-version:check": "one-version check"
   }
 }
 
 ```
-
-The `-p` flag is not required if using `pnpm`.
 
 Run `yarn one-version:check` or `pnpm run one-version:check`.
 
@@ -97,13 +95,20 @@ prettier
 
 The behavior of `@wayfair/one-version` can be configured by a `one-version.config.json` at the root of the repository.
 
-The only configuration this currently supports is an object of dependency `overrides`. This may be useful while performing major upgrades.
+### Supported Options
 
-```js
+#### overrides (optional, object)
 
-"overrides": {
-  dependency: {
-    versionSpecifier: [workspaceA, workspaceB]
+Overrides lets workspaces opt out of the one-version rule. This may be useful while performing major upgrades.
+
+### Examples
+
+```json
+{
+  "overrides": {
+    "dependency": {
+      "versionSpecifier": ["workspaceA", "workspaceB"]
+    }
   }
 }
 ```

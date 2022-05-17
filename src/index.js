@@ -16,10 +16,9 @@ program
   .description(
     "Verify that only one version of each dependency exists in a monorepo"
   )
-  .option("-p, --packageManager <type>", "package manager", "pnpm")
-  .action(({ packageManager }) => {
+  .action(() => {
     try {
-      check({ packageManager });
+      check();
     } catch (e) {
       console.log(chalk.red(e.message));
       process.exit(1);
