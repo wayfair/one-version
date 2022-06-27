@@ -5,7 +5,7 @@ Note: Currently enforces the specifications match exactly, i.e. `^17` != `17`.
 const chalk = require("chalk");
 const { parseConfig, detectPackageManager } = require("./shared/util");
 const { format } = require("./format-output");
-const { checkYarn } = require("./yarn/check");
+const { checkYarn, checkBerry } = require("./yarn/check");
 const { checkPnpm } = require("./pnpm/check");
 const {
   UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR,
@@ -16,6 +16,7 @@ const {
 const PACKAGE_MANGER_API = {
   pnpm: checkPnpm,
   yarn: checkYarn,
+  berry: checkBerry,
 };
 
 const getCheckPackageApi = (packageManager) => {

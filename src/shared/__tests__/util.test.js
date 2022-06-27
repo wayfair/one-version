@@ -6,8 +6,8 @@ const {
 } = require("../util");
 const fs = require("fs");
 
-jest.mock('fs', () => ({
-  ...jest.requireActual('fs'),
+jest.mock("fs", () => ({
+  ...jest.requireActual("fs"),
   existsSync: jest.fn(),
 }));
 
@@ -127,20 +127,30 @@ describe("findDuplicateDependencies", () => {
   });
 
   it("returns pnpm if pnpm-lock.yml exists", () => {
-    fs.existsSync.mockReturnValueOnce(true);
-    const packageManager = detectPackageManager({pnpm: "pnpm-lock.yaml",});
-    expect(packageManager).toBe('pnpm');
+    // first check for yarn.lock, then pnpm
+    fs.existsSync.mockReturnValueOnce(false).mockReturnValueOnce(true);
+    const packageManager = detectPackageManager();
+    expect(packageManager).toBe("pnpm");
   });
 
-  it("returns pnpm if yarn.lock exists", () => {
-    fs.existsSync.mockReturnValueOnce(true);
-    const packageManager = detectPackageManager({yarn: "yarn.lock"});
-    expect(packageManager).toBe('yarn');
+  it("returns yarn if yarn.lock exists", () => {
+    // first check for yarn.lock, then yarnrc
+    fs.existsSync.mockReturnValueOnce(true).mockReturnValueOnce(false);
+    const packageManager = detectPackageManager();
+    expect(packageManager).toBe("yarn");
+  });
+
+  it("returns berry if yarn.lock and .yarnrc.yml exist", () => {
+    // first check for yarn.lock, then yarnrc
+    fs.existsSync.mockReturnValueOnce(true).mockReturnValueOnce(true);
+    const packageManager = detectPackageManager();
+    expect(packageManager).toBe("berry");
   });
 
   it("returns empty if package manager is not detected", () => {
-    fs.existsSync.mockReturnValueOnce(true);
-    const packageManager = detectPackageManager({});
-    expect(packageManager).toBe('');
+    // first check for yarn.lock, then pnpm
+    fs.existsSync.mockReturnValueOnce(false).mockReturnValueOnce(false);
+    const packageManager = detectPackageManager();
+    expect(packageManager).toBe("");
   });
 });
