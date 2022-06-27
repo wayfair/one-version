@@ -166,7 +166,6 @@ const findDuplicateDependencies = (dependencies, overrides) => {
  */
 const detectPackageManager = () => {
   if (existsSync(YARN_LOCK)) {
-    console.log("hello");
     if (existsSync(YARN_RC)) {
       return "berry";
     }
