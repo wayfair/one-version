@@ -13,6 +13,12 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🔨 Chores & Documentation
 
+## [0.3.0] - 2022-06-27
+
+#### 🚀 New Features & Enhancements
+
+- Add detection and support for Yarn Berry
+
 ## [0.2.0] - 2022-05-16
 
 #### 🚀 New Features & Enhancements
