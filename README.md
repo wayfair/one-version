@@ -20,7 +20,7 @@ One Version to bring them all, and in the darkness bind them.<sup>1</sup>
 
 **🚨 Enforcement**: Require all workspaces in a monorepo to conform to the [One-Version rule](#one-version-rule).
 
-**📦 Supports multiple package managers**: Support for `yarn` and `pnpm` workspaces.
+**📦 Supports multiple package managers**: Support for `yarn` classic, `yarn` berry, and `pnpm` workspaces.
 
 **💥 Coordinated upgrades**: Coming Soon!
 

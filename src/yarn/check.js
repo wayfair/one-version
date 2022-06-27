@@ -3,11 +3,26 @@ const {
   findDuplicateDependencies,
   transformDependencies,
 } = require("../shared/util");
-const { getWorkspaces } = require("./get-workspaces");
+const classicApi = require("./classic-api");
+const berryApi = require("./berry-api");
 
-const checkYarn = ({ overrides, getPackageRoots = getWorkspaces }) => {
+const checkYarn = ({
+  overrides,
+  getPackageRoots = classicApi.getWorkspaces,
+}) => {
   const workspaces = getPackageRoots();
+  return _baseYarnCheck({ workspaces, overrides });
+};
 
+const checkBerry = ({
+  overrides,
+  getPackageRoots = berryApi.getWorkspaces,
+}) => {
+  const workspaces = getPackageRoots();
+  return _baseYarnCheck({ workspaces, overrides });
+};
+
+const _baseYarnCheck = ({ workspaces, overrides }) => {
   const packageDeps = workspaces.map(({ path }) => getPackageDeps(path));
 
   const dependenciesByNameAndVersion = transformDependencies(packageDeps);
@@ -19,4 +34,4 @@ const checkYarn = ({ overrides, getPackageRoots = getWorkspaces }) => {
   return { duplicateDependencies };
 };
 
-module.exports = { checkYarn };
+module.exports = { checkYarn, checkBerry };

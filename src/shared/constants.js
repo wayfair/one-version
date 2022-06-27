@@ -1,9 +1,8 @@
 const CONFIG_FILE = "oneversion.config.json";
 
-const LOCKFILES = {
-  yarn: "yarn.lock",
-  pnpm: "pnpm-lock.yaml",
-};
+const YARN_LOCK = "yarn.lock";
+const PNPM_LOCK = "pnpm-lock.yaml";
+const YARN_RC = ".yarnrc.yml";
 
 const DEPENDENCY_TYPES = {
   DIRECT: "direct",
@@ -19,9 +18,11 @@ const NO_CHECK_API_ERROR = `'check' api not supported for package manager:`;
 
 module.exports = {
   CONFIG_FILE,
-  LOCKFILES,
   DEPENDENCY_TYPES,
   UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR,
   FAILED_CHECK_ERROR,
   NO_CHECK_API_ERROR,
+  YARN_LOCK,
+  PNPM_LOCK,
+  YARN_RC,
 };

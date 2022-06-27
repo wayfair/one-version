@@ -58,4 +58,4 @@ Although using the same specifier, the entries resolve to two different versions
 
 - This library currently only operates on declared dependencies. That is the `dependencies`, `devDependencies`, and `peerDependencies` specified by a workspace - **not** any transitive dependencies.
 - Resolutions are not yet taken into account.
-- Package manager is selected based on the lockfile name in the root of the repo.
+- Package manager is selected based on the lockfile name in the root of the repo. Berry is chosen over Yarn classic if a `.yarnrc.yml` file exists at the root of the repo.
