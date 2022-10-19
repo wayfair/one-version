@@ -26,9 +26,9 @@ const getPackageDeps = (packageRoot) => {
   const packageContents = readFileSync(path.join(packageRoot, "package.json"), {
     encoding: "utf8",
   });
-  const { name, peerDependencies, devDependencies, dependencies } =
+  const { name, peerDependencies, devDependencies, dependencies, resolutions } =
     JSON.parse(packageContents);
-  return { name, peerDependencies, devDependencies, dependencies };
+  return { name, peerDependencies, devDependencies, dependencies, resolutions };
 };
 
 /**
