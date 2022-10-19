@@ -21,7 +21,7 @@ function getWorkspacesPNPM() {
   return workspaces.map(({ name, path }) => ({ name, path }));
 }
 
-function getWorkspacesYarnClassic(cwd) {
+function getWorkspacesYarnClassic(cwd = process.cwd()) {
   /**
    * @type {{
    *   [name: string]: {
@@ -51,7 +51,7 @@ function getWorkspacesYarnClassic(cwd) {
   ];
 }
 
-function getWorkspacesYarnBerry(cwd) {
+function getWorkspacesYarnBerry(cwd = process.cwd()) {
   // http://ndjson.org/
   const ndJSONWorkspaces = execSync("yarn workspaces list --json", {
     stdio: "pipe",
