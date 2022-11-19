@@ -17,15 +17,17 @@ const {
 } = require("../shared");
 
 const {
-  transformDependencies,
-  findDuplicateDependencies,
+  getDependenciesById,
+  // getDependenciesByVersion,
+  // findDuplicateDependencies,
+  getRuleViolations,
 } = require("./dependency-util");
 
 const _getDuplicateDependencies = ({ workspaceDependencies, overrides }) => {
-  const dependenciesByNameAndVersion = transformDependencies(
-    workspaceDependencies
-  );
-  return findDuplicateDependencies(dependenciesByNameAndVersion, overrides);
+  //  console.log(ruleViolations);
+  // const d = getDependenciesByVersion(dependenciesById);
+  // console.log(d);
+  //return findDuplicateDependencies(dependenciesByNameAndVersion, overrides);
 };
 
 const check = ({
@@ -48,10 +50,14 @@ const check = ({
     getPackageDeps(path)
   );
 
-  const duplicateDependencies = getDuplicateDependencies({
-    workspaceDependencies,
+  const dependenciesById = getDependenciesById(workspaceDependencies);
+
+  const duplicateDependencies = getRuleViolations({
+    dependenciesById,
     overrides,
   });
+
+  console.log(duplicateDependencies);
 
   if (duplicateDependencies.length > 0) {
     console.log(
@@ -59,7 +65,7 @@ const check = ({
       chalk.reset(
         "🚫 One Version Rule Failure - found multiple versions of the following dependencies:\n"
       ),
-      prettify(duplicateDependencies)
+      prettify(duplicateDependencies, dependenciesById)
     );
 
     throw new Error(FAILED_CHECK_ERROR);

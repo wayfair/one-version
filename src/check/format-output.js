@@ -1,4 +1,5 @@
 const chalk = require("chalk");
+const { DEPENDENCY_TYPES } = require("../shared/constants");
 
 const SINGLE_INDENT = 2;
 const DOUBLE_INDENT = SINGLE_INDENT * 2;
@@ -21,6 +22,29 @@ const getVersionString = (version, dependencyTypeStrings) => {
   );
 };
 
+const groupDependenciesByType = (dependencyIds, dependenciesById) => {
+  const dependencies = dependencyIds.map((id) => dependenciesById[id]);
+
+  const direct = dependencies
+    .filter((dep) => {
+      return dep.type === DEPENDENCY_TYPES.DIRECT;
+    })
+    .map((dep) => dep.consumerName);
+  const peer = dependencies
+    .filter((dep) => dep.type === DEPENDENCY_TYPES.PEER)
+    .map((dep) => dep.consumerName);
+  const dev = dependencies
+    .filter((dep) => dep.type === DEPENDENCY_TYPES.DEV)
+    .map((dep) => dep.consumerName);
+
+  return []
+    .concat(
+      direct.length ? getTypeString({ type: "direct", names: direct }) : []
+    )
+    .concat(peer.length ? getTypeString({ type: "peer", names: peer }) : [])
+    .concat(dev.length ? getTypeString({ type: "dev", names: dev }) : []);
+};
+
 /**
 Get a string in the format:
    [type]: [...names], that is:
@@ -31,15 +55,17 @@ const getTypeString = ({ type, names }) => {
   return chalk.yellowBright(`${padded}: `) + chalk.white(names.join(", "));
 };
 
-const format = (packages) => {
+const format = (packages, dependenciesById) => {
   return packages
-    .map(([name, versions]) => {
+    .map(({ name, versions }) => {
       const str = chalk.cyanBright.underline(name);
+      console.log(str);
 
       const versionsStr = Object.entries(versions)
-        .map(([version, depTypes]) => {
-          const depTypeStrings = Object.entries(depTypes).map(([type, names]) =>
-            getTypeString({ type, names })
+        .map(([version, dependencyIds]) => {
+          const depTypeStrings = groupDependenciesByType(
+            dependencyIds,
+            dependenciesById
           );
 
           return getVersionString(version, depTypeStrings);

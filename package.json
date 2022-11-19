@@ -11,7 +11,11 @@
   "author": "finn-orsini <orsini.seraphina@gmail.com>",
   "license": "MIT",
   "private": false,
-  "files": ["src/**/*.js", "!src/**/*.test.js", "!src/__fixtures__/**/*"],
+  "files": [
+    "src/**/*.js",
+    "!src/**/*.test.js",
+    "!src/__fixtures__/**/*"
+  ],
   "scripts": {
     "test": "jest",
     "lint": "eslint src/**/*.js",
@@ -27,6 +31,7 @@
   },
   "dependencies": {
     "chalk": "^4",
-    "commander": "^9.1"
+    "commander": "^9.1",
+    "uuid": "^9.0.0"
   }
 }

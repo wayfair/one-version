@@ -1,78 +1,52 @@
 const { DEPENDENCY_TYPES } = require("../shared/constants");
+const { v4: uuidv4 } = require("uuid");
 
 /**
- * Creates or updates the version dependencies for a given package
+ * Turn the manifests into a dependency map
+ * Where the keys are generated UUIDs
+ *
+ * e.g.
+ * {
+ *  '520ce6e4-864a-4f7d-a1e1-e0e4d0a5c821': {
+ *     packageName: '@wayfair/foo',
+ *     version: '1.0.0',
+ *     consumerName: '@wayfair/bar',
+ *     type: 'direct'
+ *   }
+ * }
+ *
+ * This map allows us to refer to dependencies by and ID, and easily fetch
+ * its information when needed to display. This greatly simplifies the previous
+ * logic which handled direct/dev/peer deps separately.
  */
-const addOrUpdateVersion = ({ seenVersions, type, version, consumerName }) => {
-  const seenConsumers = seenVersions?.[version]?.[type] || [];
-  const versionConsumers = seenConsumers.concat(consumerName);
-  return {
-    ...seenVersions,
-    [version]: {
-      ...seenVersions?.[version],
-      [type]: versionConsumers,
-    },
-  };
-};
-
-/**
-Transform dependencies from an array of package json formats, i.e. multiple
-{
-  name: "packageName",
-  dependencies: {
-    'react': '^18'
-  }
-}
-into an inverted structure organized by each dependency name, version, and type:
-{
-  react: {
-    '^18': {direct: [ 'packageName' ], peer: ['demo-package']},
-    '^17': {direct: [ 'demo', 'platform-capabilities' ]}
-  },
-}
-that is,
-{
-   dependencyName: {
-     versionSpecifier: {dependencyType: [ consumers using this specifier and type ]}
-   }
-}
-*/
-const transformDependencies = (manifests) => {
+const getDependenciesById = (manifests) => {
   return manifests.reduce(
     (
       acc,
-      { name: consumerName, dependencies, peerDependencies, devDependencies }
+      {
+        name: consumerName,
+        dependencies = [],
+        peerDependencies = [],
+        devDependencies = [],
+      }
     ) => {
-      if (dependencies) {
-        Object.entries(dependencies).forEach(([packageName, version]) => {
-          acc[packageName] = addOrUpdateVersion({
-            seenVersions: acc[packageName],
-            type: DEPENDENCY_TYPES.DIRECT,
+      // create a closure over the dependency type to push onto the acc
+      // to avoid repeating this for each callback
+      const cb =
+        (type) =>
+        ([packageName, version]) => {
+          acc[uuidv4()] = {
+            packageName,
             version,
+            type,
             consumerName,
-          });
-        });
-      }
-      if (peerDependencies) {
-        Object.entries(peerDependencies).forEach(([packageName, version]) => {
-          acc[packageName] = addOrUpdateVersion({
-            seenVersions: acc[packageName],
-            type: DEPENDENCY_TYPES.PEER,
-            version,
-            consumerName,
-          });
-        });
-      }
-      if (devDependencies) {
-        Object.entries(devDependencies).forEach(([packageName, version]) => {
-          acc[packageName] = addOrUpdateVersion({
-            seenVersions: acc[packageName],
-            type: DEPENDENCY_TYPES.DEV,
-            version,
-            consumerName,
-          });
-        });
-      }
+          };
+        };
+
+      Object.entries(dependencies).forEach(cb(DEPENDENCY_TYPES.DIRECT));
+      Object.entries(peerDependencies).forEach(cb(DEPENDENCY_TYPES.PEER));
+      Object.entries(devDependencies).forEach(cb(DEPENDENCY_TYPES.DEV));
+
       return acc;
     },
     {}
@@ -80,57 +54,78 @@ const transformDependencies = (manifests) => {
 };
 
 /**
- * Removes overridden dependencies from the versions arrays
+ * Creates or updates the version dependencies for a given package
  */
-const removeOverriddenDependencies = ({ packageOverrides, versions }) => {
-  return Object.entries(versions)
-    .map(([version, { direct, peer, dev }]) => {
-      const filteredPackages = {};
-      const notOverridden = (packageName) =>
-        !packageOverrides[version]?.includes(packageName);
-      if (direct) {
-        const directDependencies = direct.filter(notOverridden);
-        if (directDependencies.length > 0) {
-          filteredPackages[DEPENDENCY_TYPES.DIRECT] = directDependencies;
-        }
-      }
-      if (peer) {
-        const peerDependencies = peer.filter(notOverridden);
-        if (peerDependencies.length > 0) {
-          filteredPackages[DEPENDENCY_TYPES.PEER] = peerDependencies;
-        }
-      }
-      if (dev) {
-        const devDependencies = dev.filter(notOverridden);
-        if (devDependencies.length > 0) {
-          filteredPackages[DEPENDENCY_TYPES.DEV] = devDependencies;
-        }
-      }
-      return [version, filteredPackages];
-    })
-    .filter(([, dependents]) => Object.keys(dependents).length > 0);
+const addOrUpdateVersion = ({ seenVersions, id, version }) => {
+  const seenConsumers = seenVersions?.[version] || [];
+  const versionConsumers = seenConsumers.concat(id);
+  return {
+    ...seenVersions,
+    [version]: versionConsumers,
+  };
 };
 
-/**
- * Finds dependencies with multiple versions (excluding overrides)
- */
-const findDuplicateDependencies = (dependencies, overrides) => {
-  return Object.entries(dependencies)
-    .map(([packageName, versions]) => {
-      const packageOverrides = overrides?.[packageName];
-      if (packageOverrides) {
-        const filteredVersions = removeOverriddenDependencies({
-          packageOverrides,
-          versions,
-        });
-        return [packageName, Object.fromEntries(filteredVersions)];
+const getDependenciesByVersion = (dependenciesById) => {
+  return Object.entries(dependenciesById).reduce(
+    (acc, [depId, { packageName, version }]) => {
+      acc[packageName] = addOrUpdateVersion({
+        seenVersions: acc[packageName],
+        version,
+        id: depId,
+      });
+      return acc;
+    },
+    {}
+  );
+};
+
+const removeOverrides = ({ dependenciesById = {}, overrides = {} }) => {
+  // If we have overrides, remove them from the dependencies list
+  if (Object.keys(overrides).length > 0) {
+    return Object.entries(dependenciesById).reduce((acc, [id, dep]) => {
+      const versionOverrides = overrides?.[dep.packageName] || {};
+      if (
+        versionOverrides[dep.version] &&
+        versionOverrides[dep.version].includes(dep.consumerName)
+      ) {
+        return acc;
       }
-      return [packageName, versions];
-    })
-    .filter(([, versions]) => Object.keys(versions).length > 1);
+      acc[id] = dep;
+      return acc;
+    }, {});
+  }
+
+  return dependenciesById;
+};
+
+const getPackagesWithMultipleVersions = (packageUsesByVersions) => {
+  return Object.entries(packageUsesByVersions).reduce(
+    (acc, [packageName, versions]) => {
+      if (Object.keys(versions).length > 1) {
+        acc[packageName] = versions;
+      }
+      return acc;
+    },
+    {}
+  );
+};
+
+const getRuleViolations = ({ dependenciesById, overrides }) => {
+  const filteredDependencies = removeOverrides({ dependenciesById, overrides });
+  const dependenciesByVersion = getDependenciesByVersion(filteredDependencies);
+  const packagesWithMultipleVersions = getPackagesWithMultipleVersions(
+    dependenciesByVersion
+  );
+
+  return Object.entries(packagesWithMultipleVersions).map(
+    ([package, versions]) => ({ name: package, versions })
+  );
 };
 
 module.exports = {
-  transformDependencies,
-  findDuplicateDependencies,
+  getDependenciesById,
+  removeOverrides,
+  getDependenciesByVersion,
+  getRuleViolations,
+  getPackagesWithMultipleVersions,
 };
