@@ -2,11 +2,11 @@
 
 The exact method used to determine a violation of the `One-Version` rule vary by package manager.
 
-### Yarn
+### Yarn & Berry
 
 **Note**: Unless stated otherwise, `yarn` refers to `yarn` v1. `Berry` will be used to refer to `yarn` v2+.
 
-Yarn workspaces contain a single, flat lockfile at the repository root. The lockfile entries apply to all workspaces in the repository.
+Yarn and Berry workspaces contain a single, flat lockfile at the repository root. The lockfile entries apply to all workspaces in the repository.
 
 In the below snippet there are two lockfile entries for the same dependency, `@babel/code-frame`. The resolved version depends on the version specifier requested, i.e. `^7.16.0` will resolve to `7.16.2`, but `^7.14.5` and `^7.0.0` will resolve to `7.15.8`.
 
