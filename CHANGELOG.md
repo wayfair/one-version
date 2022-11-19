@@ -14,6 +14,7 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 #### 🔨 Chores & Documentation
 
 - Refactored check api to unify across package managers
+- Refactored check to normalize dependencies to simplify duplicate check logic
 
 ## [0.3.0] - 2022-06-27
 
