@@ -1,4 +1,4 @@
-const { DEPENDENCY_TYPES } = require("./constants");
+const { DEPENDENCY_TYPES } = require("../shared/constants");
 
 /**
  * Creates or updates the version dependencies for a given package

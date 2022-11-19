@@ -1,9 +1,9 @@
-const { check } = require("../check");
+const { check } = require("../index");
 const {
   NO_CHECK_API_ERROR,
   FAILED_CHECK_ERROR,
   UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR,
-} = require("../shared/constants");
+} = require("../../shared/constants");
 
 const packageManager = "fake-package-manager";
 const otherPackageManager = "other-package-manager";

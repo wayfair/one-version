@@ -1,5 +1,8 @@
-const { transformDependencies, findDuplicateDependencies } = require("../util");
-const { getPackageDeps } = require("../read-dependencies");
+const {
+  transformDependencies,
+  findDuplicateDependencies,
+} = require("../dependency-util");
+const { getPackageDeps } = require("../../shared/read-dependencies");
 const fs = require("fs");
 
 jest.mock("fs", () => ({

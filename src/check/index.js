@@ -4,18 +4,22 @@ Note: Currently enforces the specifications match exactly, i.e. `^17` != `17`.
 */
 const chalk = require("chalk");
 const {
-  transformDependencies,
-  findDuplicateDependencies,
-} = require("./shared/util");
-const {
   UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR,
   FAILED_CHECK_ERROR,
-} = require("./shared/constants");
+} = require("../shared/constants");
 const { format } = require("./format-output");
-const { parseConfig } = require("./shared/read-config");
-const { getPackageDeps } = require("./shared/read-dependencies");
-const { getWorkspacesForPackageManager } = require("./shared/get-workspaces");
-const { detectPackageManager } = require("./shared/detect-package-manager");
+
+const {
+  parseConfig,
+  getPackageDeps,
+  getWorkspacesForPackageManager,
+  detectPackageManager,
+} = require("../shared");
+
+const {
+  transformDependencies,
+  findDuplicateDependencies,
+} = require("./dependency-util");
 
 const _getDuplicateDependencies = (workspaceDependencies, overrides) => {
   const dependenciesByNameAndVersion = transformDependencies(
