@@ -4,23 +4,32 @@ Note: Currently enforces the specifications match exactly, i.e. `^17` != `17`.
 */
 const chalk = require("chalk");
 const {
-  parseConfig,
-  detectPackageManager,
-  getPackageDeps,
   transformDependencies,
   findDuplicateDependencies,
 } = require("./shared/util");
-const { format } = require("./format-output");
 const {
   UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR,
   FAILED_CHECK_ERROR,
 } = require("./shared/constants");
-const getWorkspaces = require("./get-workspaces");
+const { format } = require("./format-output");
+const { parseConfig } = require("./shared/read-config");
+const { getPackageDeps } = require("./shared/read-dependencies");
+const { getWorkspacesForPackageManager } = require("./get-workspaces");
+const { detectPackageManager } = require("./shared/detect-package-manager");
+
+const _getDuplicateDependencies = (workspaceDependencies, overrides) => {
+  const dependenciesByNameAndVersion = transformDependencies(
+    workspaceDependencies
+  );
+  return findDuplicateDependencies(dependenciesByNameAndVersion, overrides);
+};
 
 const check = ({
   getPackageManager = detectPackageManager,
   getConfig = parseConfig,
   prettify = format,
+  getWorkspaces = getWorkspacesForPackageManager,
+  getDuplicateDependencies = _getDuplicateDependencies,
 } = {}) => {
   const { overrides } = getConfig();
 
@@ -30,12 +39,15 @@ const check = ({
   }
 
   const workspaces = getWorkspaces(packageManager);
-  const packageDeps = workspaces.map(({ path }) => getPackageDeps(path));
-  const dependenciesByNameAndVersion = transformDependencies(packageDeps);
-  const duplicateDependencies = findDuplicateDependencies(
-    dependenciesByNameAndVersion,
-    overrides
+
+  const workspaceDependencies = workspaces.map(({ path }) =>
+    getPackageDeps(path)
   );
+
+  const duplicateDependencies = getDuplicateDependencies({
+    workspaceDependencies,
+    overrides,
+  });
 
   if (duplicateDependencies.length > 0) {
     console.log(

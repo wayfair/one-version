@@ -1,9 +1,5 @@
-const {
-  getPackageDeps,
-  transformDependencies,
-  findDuplicateDependencies,
-  detectPackageManager,
-} = require("../util");
+const { transformDependencies, findDuplicateDependencies } = require("../util");
+const { getPackageDeps } = require("../read-dependencies");
 const fs = require("fs");
 
 jest.mock("fs", () => ({
@@ -37,40 +33,6 @@ const MOCK_OVERRIDES = {
     "^26.5": ["mock-app-b"],
   },
 };
-
-describe("getPackageDeps", () => {
-  it("returns dependencies for an app", () => {
-    const { name, dependencies, devDependencies } = getPackageDeps(
-      "src/__fixtures__/mock-app-a"
-    );
-
-    expect(name).toBe("mock-app-a");
-    expect(dependencies).toEqual({
-      eslint: "7.0.1",
-      jest: "^27.2",
-      react: "^17",
-      "react-dom": "17",
-    });
-    expect(devDependencies).toEqual({
-      cypress: "^2",
-    });
-  });
-
-  it("returns dependencies for a lib", () => {
-    const { name, peerDependencies, devDependencies } = getPackageDeps(
-      "src/__fixtures__/mock-lib-a"
-    );
-
-    expect(name).toBe("mock-lib-a");
-    expect(peerDependencies).toEqual({
-      react: "^17",
-      "react-dom": "17",
-    });
-    expect(devDependencies).toEqual({
-      cypress: "^2",
-    });
-  });
-});
 
 describe("transformDependencies", () => {
   it("transforms dependencies for an array of entities", () => {
@@ -124,33 +86,5 @@ describe("findDuplicateDependencies", () => {
         },
       ],
     ]);
-  });
-
-  it("returns pnpm if pnpm-lock.yml exists", () => {
-    // first check for yarn.lock, then pnpm
-    fs.existsSync.mockReturnValueOnce(false).mockReturnValueOnce(true);
-    const packageManager = detectPackageManager();
-    expect(packageManager).toBe("pnpm");
-  });
-
-  it("returns yarn if yarn.lock exists", () => {
-    // first check for yarn.lock, then yarnrc
-    fs.existsSync.mockReturnValueOnce(true).mockReturnValueOnce(false);
-    const packageManager = detectPackageManager();
-    expect(packageManager).toBe("yarn");
-  });
-
-  it("returns berry if yarn.lock and .yarnrc.yml exist", () => {
-    // first check for yarn.lock, then yarnrc
-    fs.existsSync.mockReturnValueOnce(true).mockReturnValueOnce(true);
-    const packageManager = detectPackageManager();
-    expect(packageManager).toBe("berry");
-  });
-
-  it("returns empty if package manager is not detected", () => {
-    // first check for yarn.lock, then pnpm
-    fs.existsSync.mockReturnValueOnce(false).mockReturnValueOnce(false);
-    const packageManager = detectPackageManager();
-    expect(packageManager).toBe("");
   });
 });

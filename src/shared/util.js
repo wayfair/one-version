@@ -1,35 +1,4 @@
-const { readFileSync, existsSync } = require("fs");
-const path = require("path");
-const {
-  DEPENDENCY_TYPES,
-  CONFIG_FILE,
-  YARN_RC,
-  YARN_LOCK,
-  PNPM_LOCK,
-} = require("./constants");
-
-/**
- * Parse a config file if it exists
- */
-const parseConfig = (configFilePath = CONFIG_FILE) => {
-  const configPath = path.join(process.cwd(), configFilePath);
-  const configContents = existsSync(configPath)
-    ? readFileSync(configPath, { encoding: "utf-8" })
-    : "{}";
-  return JSON.parse(configContents);
-};
-
-/**
- * Read the manifest at a specified path, return only the fields we care about
- */
-const getPackageDeps = (packageRoot) => {
-  const packageContents = readFileSync(path.join(packageRoot, "package.json"), {
-    encoding: "utf8",
-  });
-  const { name, peerDependencies, devDependencies, dependencies, resolutions } =
-    JSON.parse(packageContents);
-  return { name, peerDependencies, devDependencies, dependencies, resolutions };
-};
+const { DEPENDENCY_TYPES } = require("./constants");
 
 /**
  * Creates or updates the version dependencies for a given package
@@ -161,26 +130,7 @@ const findDuplicateDependencies = (dependencies, overrides) => {
     .filter(([, versions]) => Object.keys(versions).length > 1);
 };
 
-/**
- * Detect the package manager being used by the project
- */
-const detectPackageManager = () => {
-  if (existsSync(YARN_LOCK)) {
-    if (existsSync(YARN_RC)) {
-      return "berry";
-    }
-    return "yarn";
-  }
-  if (existsSync(PNPM_LOCK)) {
-    return "pnpm";
-  }
-  return "";
-};
-
 module.exports = {
-  parseConfig,
-  getPackageDeps,
   transformDependencies,
   findDuplicateDependencies,
-  detectPackageManager,
 };

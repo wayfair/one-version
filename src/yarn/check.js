@@ -1,5 +1,5 @@
+const { getPackageDeps } = require("../shared/read-dependencies");
 const {
-  getPackageDeps,
   findDuplicateDependencies,
   transformDependencies,
 } = require("../shared/util");

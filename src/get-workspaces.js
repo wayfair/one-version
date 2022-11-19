@@ -74,7 +74,7 @@ function getWorkspacesYarnBerry(cwd = process.cwd()) {
   }));
 }
 
-module.exports = function getWorkspaces(packageManager) {
+function getWorkspacesForPackageManager(packageManager) {
   switch (packageManager) {
     case "pnpm":
       return getWorkspacesPNPM();
@@ -85,4 +85,6 @@ module.exports = function getWorkspaces(packageManager) {
     default:
       throw new Error(`${NO_CHECK_API_ERROR} ${packageManager}`);
   }
-};
+}
+
+module.exports = { getWorkspacesForPackageManager };

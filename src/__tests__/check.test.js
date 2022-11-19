@@ -41,35 +41,42 @@ describe("one-version: check", () => {
     }).toThrow(`${NO_CHECK_API_ERROR} ${packageManager}`);
   });
 
-  it("calls check api if found for package manager", () => {
+  it("calls get workspaces with package manager ", () => {
     const mockDetectPackageManager = jest.fn();
     mockDetectPackageManager.mockReturnValue(packageManager);
 
-    const mockCheckApi = jest.fn();
-    mockCheckApi.mockReturnValue({ duplicateDependencies: [] });
+    const mockGetWorkspaces = jest.fn();
+    mockGetWorkspaces.mockReturnValue([]);
+    const mockGetDuplicateDependencies = jest.fn();
+    mockGetDuplicateDependencies.mockReturnValue([]);
 
     check({
       getPackageManager: mockDetectPackageManager,
       getConfig: mockGetConfig,
-      getCheckApi: () => mockCheckApi,
+      getWorkspaces: mockGetWorkspaces,
+      getDuplicateDependencies: mockGetDuplicateDependencies,
     });
 
-    expect(mockCheckApi).toHaveBeenCalledWith({ overrides: {} });
+    expect(mockGetWorkspaces).toHaveBeenCalledWith(packageManager);
   });
 
   it("throws if check api finds duplicate dependencies", () => {
     const mockDetectPackageManager = jest.fn();
     mockDetectPackageManager.mockReturnValue(packageManager);
 
-    const mockCheckApi = jest.fn();
-    mockCheckApi.mockReturnValue({ duplicateDependencies: ["foo"] });
+    const mockGetWorkspaces = jest.fn();
+    mockGetWorkspaces.mockReturnValue([]);
+
+    const mockGetDuplicateDependencies = jest.fn();
+    mockGetDuplicateDependencies.mockReturnValue(["foo"]);
 
     expect(() => {
       check({
         getPackageManager: mockDetectPackageManager,
         getConfig: mockGetConfig,
-        getCheckApi: () => mockCheckApi,
         prettify: () => {},
+        getWorkspaces: mockGetWorkspaces,
+        getDuplicateDependencies: mockGetDuplicateDependencies,
       });
     }).toThrow(FAILED_CHECK_ERROR);
   });
