@@ -14,7 +14,7 @@ const {
 const { format } = require("./format-output");
 const { parseConfig } = require("./shared/read-config");
 const { getPackageDeps } = require("./shared/read-dependencies");
-const { getWorkspacesForPackageManager } = require("./get-workspaces");
+const { getWorkspacesForPackageManager } = require("./shared/get-workspaces");
 const { detectPackageManager } = require("./shared/detect-package-manager");
 
 const _getDuplicateDependencies = (workspaceDependencies, overrides) => {

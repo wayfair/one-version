@@ -1,6 +1,6 @@
 const { execSync } = require("child_process");
 const path = require("path");
-const { NO_CHECK_API_ERROR } = require("./shared/constants");
+const { NO_CHECK_API_ERROR } = require("./constants");
 
 function getWorkspacesPNPM() {
   /**
