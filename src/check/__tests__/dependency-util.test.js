@@ -1,41 +1,35 @@
 const {
-  //transformDependencies,
-  findDuplicateDependencies,
-  getPackagesWithMultipleVersions,
   removeOverrides,
+  getPackagesWithMultipleVersions,
+  getDependenciesById,
+  getDependenciesByVersion,
+  getRuleViolations,
 } = require("../dependency-util");
-const { getPackageDeps } = require("../../shared/read-dependencies");
-const fs = require("fs");
 
-jest.mock("fs", () => ({
-  ...jest.requireActual("fs"),
-  existsSync: jest.fn(),
-}));
-
-const MOCK_TRANSFORMED_DEPENDENCIES = {
-  eslint: { "7.0.1": { direct: ["mock-app-a", "mock-app-b", "mock-app-c"] } },
-  jest: {
-    "^27.2": { direct: ["mock-app-a", "mock-app-c"] },
-    "^26.5": { direct: ["mock-app-b"] },
+const dependenciesById = {
+  uno: {
+    packageName: "A",
+    version: "1.0.0",
+    type: "direct",
+    consumerName: "foo",
   },
-  react: {
-    "^17": {
-      direct: ["mock-app-a", "mock-app-b", "mock-app-c"],
-      peer: ["mock-lib-a"],
-    },
+  dos: {
+    packageName: "B",
+    version: "2.0.0",
+    type: "peer",
+    consumerName: "bar",
   },
-  "react-dom": {
-    17: { direct: ["mock-app-a", "mock-app-c"], peer: ["mock-lib-a"] },
-    16: { direct: ["mock-app-b"] },
+  tres: {
+    packageName: "C",
+    version: "3.0.0",
+    type: "dev",
+    consumerName: "bar",
   },
-  cypress: {
-    "^2": { dev: ["mock-app-a", "mock-app-b", "mock-app-c", "mock-lib-a"] },
-  },
-};
-
-const MOCK_OVERRIDES = {
-  jest: {
-    "^26.5": ["mock-app-b"],
+  quatro: {
+    packageName: "C",
+    version: "4.0.0",
+    type: "dev",
+    consumerName: "bar",
   },
 };
 
@@ -58,7 +52,7 @@ describe("getPackagesWithMultipleVersions", () => {
   });
 });
 
-describe.only("removeOverrides", () => {
+describe("removeOverrides", () => {
   it("removes specified overrides", () => {
     const dependenciesById = {
       a: { packageName: "foo", version: "1.0.0", consumerName: "bar" },
@@ -73,59 +67,78 @@ describe.only("removeOverrides", () => {
       b: { packageName: "foo", version: "1.0.0", consumerName: "fizz" },
     });
   });
+
+  it("Does not fail when args not passed", () => {
+    const updated = removeOverrides();
+    expect(updated).toEqual({});
+  });
 });
 
-// describe("transformDependencies", () => {
-//   it("transforms dependencies for an array of entities", () => {
-//     const manifests = [
-//       getPackageDeps("src/__fixtures__/mock-app-a"),
-//       getPackageDeps("src/__fixtures__/mock-app-b"),
-//       getPackageDeps("src/__fixtures__/mock-app-c"),
-//       getPackageDeps("src/__fixtures__/mock-lib-a"),
-//     ];
+describe("getDependenciesById", () => {
+  it("Creates a dependency for each specified in the manifests", () => {
+    const manifests = [
+      { name: "foo", dependencies: { A: "1.0.0" } },
+      {
+        name: "bar",
+        peerDependencies: { B: "2.0.0" },
+        devDependencies: { C: "3.0.0" },
+      },
+    ];
 
-//     const dependenciesByNameAndVersion = transformDependencies(manifests);
-//     expect(dependenciesByNameAndVersion).toEqual(MOCK_TRANSFORMED_DEPENDENCIES);
-//   });
-// });
+    const dependenciesById = getDependenciesById(manifests);
 
-// describe("findDuplicateDependencies", () => {
-//   it("overrides specified", () => {
-//     const duplicateDependencies = findDuplicateDependencies(
-//       MOCK_TRANSFORMED_DEPENDENCIES,
-//       MOCK_OVERRIDES
-//     );
-//     expect(duplicateDependencies).toEqual([
-//       [
-//         "react-dom",
-//         {
-//           16: { direct: ["mock-app-b"] },
-//           17: { direct: ["mock-app-a", "mock-app-c"], peer: ["mock-lib-a"] },
-//         },
-//       ],
-//     ]);
-//   });
+    expect(Object.values(dependenciesById)).toEqual(
+      expect.arrayContaining([
+        {
+          packageName: "A",
+          version: "1.0.0",
+          type: "direct",
+          consumerName: "foo",
+        },
+        {
+          packageName: "B",
+          version: "2.0.0",
+          type: "peer",
+          consumerName: "bar",
+        },
+        {
+          packageName: "C",
+          version: "3.0.0",
+          type: "dev",
+          consumerName: "bar",
+        },
+      ])
+    );
+  });
+});
 
-//   it("no overrides specified", () => {
-//     const duplicateDependencies = findDuplicateDependencies(
-//       MOCK_TRANSFORMED_DEPENDENCIES,
-//       {}
-//     );
-//     expect(duplicateDependencies).toEqual([
-//       [
-//         "jest",
-//         {
-//           "^27.2": { direct: ["mock-app-a", "mock-app-c"] },
-//           "^26.5": { direct: ["mock-app-b"] },
-//         },
-//       ],
-//       [
-//         "react-dom",
-//         {
-//           16: { direct: ["mock-app-b"] },
-//           17: { direct: ["mock-app-a", "mock-app-c"], peer: ["mock-lib-a"] },
-//         },
-//       ],
-//     ]);
-//   });
-// });
+describe("getDependenciesByVersion", () => {
+  it("transforms dependencies by id into dependencies by version", () => {
+    const dependenciesByVersion = getDependenciesByVersion(dependenciesById);
+
+    expect(dependenciesByVersion).toEqual({
+      A: { "1.0.0": ["uno"] },
+      B: { "2.0.0": ["dos"] },
+      C: { "3.0.0": ["tres"], "4.0.0": ["quatro"] },
+    });
+  });
+});
+
+describe("getRuleViolations", () => {
+  it("combines everything and returns violating deps", () => {
+    const violations = getRuleViolations({ dependenciesById, overrides: {} });
+
+    expect(violations).toEqual([
+      { name: "C", versions: { "3.0.0": ["tres"], "4.0.0": ["quatro"] } },
+    ]);
+  });
+
+  it("respects overrides", () => {
+    const violations = getRuleViolations({
+      dependenciesById,
+      overrides: { C: { "4.0.0": ["bar"] } },
+    });
+
+    expect(violations).toEqual([]);
+  });
+});

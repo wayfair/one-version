@@ -79,11 +79,12 @@ const getDependenciesByVersion = (dependenciesById) => {
   );
 };
 
-const removeOverrides = ({ dependenciesById = {}, overrides = {} }) => {
+const removeOverrides = ({ dependenciesById = {}, overrides = {} } = {}) => {
   // If we have overrides, remove them from the dependencies list
   if (Object.keys(overrides).length > 0) {
     return Object.entries(dependenciesById).reduce((acc, [id, dep]) => {
       const versionOverrides = overrides?.[dep.packageName] || {};
+
       if (
         versionOverrides[dep.version] &&
         versionOverrides[dep.version].includes(dep.consumerName)
@@ -118,7 +119,7 @@ const getRuleViolations = ({ dependenciesById, overrides }) => {
   );
 
   return Object.entries(packagesWithMultipleVersions).map(
-    ([package, versions]) => ({ name: package, versions })
+    ([name, versions]) => ({ name, versions })
   );
 };
 

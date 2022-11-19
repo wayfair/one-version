@@ -59,7 +59,6 @@ const format = (packages, dependenciesById) => {
   return packages
     .map(({ name, versions }) => {
       const str = chalk.cyanBright.underline(name);
-      console.log(str);
 
       const versionsStr = Object.entries(versions)
         .map(([version, dependencyIds]) => {

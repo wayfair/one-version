@@ -18,24 +18,16 @@ const {
 
 const {
   getDependenciesById,
-  // getDependenciesByVersion,
-  // findDuplicateDependencies,
+
   getRuleViolations,
 } = require("./dependency-util");
-
-const _getDuplicateDependencies = ({ workspaceDependencies, overrides }) => {
-  //  console.log(ruleViolations);
-  // const d = getDependenciesByVersion(dependenciesById);
-  // console.log(d);
-  //return findDuplicateDependencies(dependenciesByNameAndVersion, overrides);
-};
 
 const check = ({
   getPackageManager = detectPackageManager,
   getConfig = parseConfig,
   prettify = format,
   getWorkspaces = getWorkspacesForPackageManager,
-  getDuplicateDependencies = _getDuplicateDependencies,
+  getDuplicateDependencies = getRuleViolations,
 } = {}) => {
   const { overrides } = getConfig();
 
@@ -52,7 +44,7 @@ const check = ({
 
   const dependenciesById = getDependenciesById(workspaceDependencies);
 
-  const duplicateDependencies = getRuleViolations({
+  const duplicateDependencies = getDuplicateDependencies({
     dependenciesById,
     overrides,
   });
