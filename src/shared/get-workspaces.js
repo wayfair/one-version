@@ -1,8 +1,8 @@
-const { execSync } = require("child_process");
+const cp = require("child_process");
 const path = require("path");
-const { NO_CHECK_API_ERROR } = require("./constants");
+const { NO_PACKAGE_MANAGER } = require("./constants");
 
-function getWorkspacesPNPM() {
+const _getWorkspacesPNPM = ({ execSync = cp.execSync } = {}) => {
   /**
    * @type {Array<{
    *   name: string;
@@ -19,9 +19,12 @@ function getWorkspacesPNPM() {
 
   // filter out any extra info, only return name and path
   return workspaces.map(({ name, path }) => ({ name, path }));
-}
+};
 
-function getWorkspacesYarnClassic(cwd = process.cwd()) {
+const _getWorkspacesYarnClassic = ({
+  cwd = process.cwd(),
+  execSync = cp.execSync,
+} = {}) => {
   /**
    * @type {{
    *   [name: string]: {
@@ -32,7 +35,9 @@ function getWorkspacesYarnClassic(cwd = process.cwd()) {
    * }}
    */
   const workspaces = JSON.parse(
-    execSync("yarn --silent workspaces info", { stdio: "pipe" }).toString()
+    execSync("yarn --silent workspaces info", {
+      encoding: "utf8",
+    })
   );
 
   // Yarn Classic does not include the root package.
@@ -49,42 +54,53 @@ function getWorkspacesYarnClassic(cwd = process.cwd()) {
       path: path.join(cwd, location),
     })),
   ];
-}
+};
 
-function getWorkspacesYarnBerry(cwd = process.cwd()) {
+const _getWorkspacesYarnBerry = ({
+  cwd = process.cwd(),
+  execSync = cp.execSync,
+} = {}) => {
   // http://ndjson.org/
   const ndJSONWorkspaces = execSync("yarn workspaces list --json", {
-    stdio: "pipe",
-  }).toString();
+    encoding: "utf8",
+  });
 
-  /**
-   * @type {Array<{
-   *   name: string;
-   *   location: string; // relative path
-   * }>}
-   */
-  const workspaces = ndJSONWorkspaces
-    .replace(/\n*$/, "") // strip out trailing new line
-    .split("\n") // split on new line
-    .map((str) => JSON.parse(str)); // parse each workspace
+  if (ndJSONWorkspaces != "") {
+    /**
+     * @type {Array<{
+     *   name: string;
+     *   location: string; // relative path
+     * }>}
+     */
+    const workspaces = ndJSONWorkspaces
+      .replace(/\n*$/, "") // strip out trailing new line
+      .split("\n") // split on new line
+      .map((str) => JSON.parse(str)); // parse each workspace
 
-  return workspaces.map(({ location, name }) => ({
-    name,
-    path: path.join(cwd, location),
-  }));
-}
+    return workspaces.map(({ location, name }) => ({
+      name,
+      path: path.join(cwd, location),
+    }));
+  }
+  return [];
+};
 
-function getWorkspacesForPackageManager(packageManager) {
+const getWorkspacesForPackageManager = (packageManager) => {
   switch (packageManager) {
     case "pnpm":
-      return getWorkspacesPNPM();
+      return _getWorkspacesPNPM();
     case "yarn":
-      return getWorkspacesYarnClassic();
+      return _getWorkspacesYarnClassic();
     case "berry":
-      return getWorkspacesYarnBerry();
+      return _getWorkspacesYarnBerry();
     default:
-      throw new Error(`${NO_CHECK_API_ERROR} ${packageManager}`);
+      throw new Error(`${NO_PACKAGE_MANAGER} ${packageManager}`);
   }
-}
+};
 
-module.exports = { getWorkspacesForPackageManager };
+module.exports = {
+  getWorkspacesForPackageManager,
+  _getWorkspacesPNPM,
+  _getWorkspacesYarnClassic,
+  _getWorkspacesYarnBerry,
+};

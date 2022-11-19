@@ -1,6 +1,6 @@
 const { check } = require("../index");
 const {
-  NO_CHECK_API_ERROR,
+  NO_PACKAGE_MANAGER,
   FAILED_CHECK_ERROR,
   UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR,
 } = require("../../shared/constants");
@@ -38,7 +38,7 @@ describe("one-version: check", () => {
         getConfig: mockGetConfig,
         getCheckApi: mockGetMissingPackageApi,
       });
-    }).toThrow(`${NO_CHECK_API_ERROR} ${packageManager}`);
+    }).toThrow(`${NO_PACKAGE_MANAGER} ${packageManager}`);
   });
 
   it("calls get workspaces with package manager ", () => {
