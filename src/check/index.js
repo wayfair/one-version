@@ -57,8 +57,6 @@ const check = ({
     overrides,
   });
 
-  console.log(duplicateDependencies);
-
   if (duplicateDependencies.length > 0) {
     console.log(
       chalk.dim("You shall not pass!\n"),
