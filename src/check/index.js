@@ -21,7 +21,7 @@ const {
   findDuplicateDependencies,
 } = require("./dependency-util");
 
-const _getDuplicateDependencies = (workspaceDependencies, overrides) => {
+const _getDuplicateDependencies = ({ workspaceDependencies, overrides }) => {
   const dependenciesByNameAndVersion = transformDependencies(
     workspaceDependencies
   );
