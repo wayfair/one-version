@@ -28,9 +28,15 @@ One Version to bring them all, and in the darkness bind them.<sup>1</sup>
 
 ## Table Of Contents
 
+- [Table Of Contents](#table-of-contents)
 - [One-Version Rule](#one-version-rule)
 - [Getting Started](#getting-started)
 - [Configuration](#configuration)
+  - [Supported Options](#supported-options)
+    - [overrides (optional, object)](#overrides-optional-object)
+  - [Examples](#examples)
+- [CLI](#cli)
+  - [`-f`, `--file` (optional, string)](#-f---file-optional-string)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -124,6 +130,14 @@ For example, the below config will allow `app-A` and `lib-L` to specify `react@^
   }
 }
 ```
+
+## CLI
+
+### `-f`, `--file` (optional, string)
+
+Pass a path to a local workspace to include in the one version check. This is useful for preparing a workspace to be migrated into a monorepo that follows the one version rule.
+
+Example: `yarn one-version:check -f ../path/to/local/workspace`
 
 ## Contributing
 

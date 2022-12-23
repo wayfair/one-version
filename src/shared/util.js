@@ -178,10 +178,15 @@ const detectPackageManager = () => {
 };
 
 /**
- * Validate manifest file
+ * Validate that a path exists
  */
-const isValidManifest = (filePath) =>
-  existsSync(filePath) && path.basename(filePath) === 'package.json';
+const isValidPath = (filePath) => {
+  if (existsSync(path.join(filePath, 'package.json'))) {
+    return true;
+  } else {
+    throw new Error(`Invalid workspace: ${filePath}`);
+  }
+}
 
 module.exports = {
   parseConfig,
@@ -189,5 +194,5 @@ module.exports = {
   transformDependencies,
   findDuplicateDependencies,
   detectPackageManager,
-  isValidManifest,
+  isValidPath,
 };

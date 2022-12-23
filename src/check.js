@@ -6,7 +6,7 @@ const chalk = require('chalk');
 const {
   parseConfig,
   detectPackageManager,
-  isValidManifest,
+  isValidPath,
 } = require('./shared/util');
 const { format } = require('./format-output');
 const { checkYarn, checkBerry } = require('./yarn/check');
@@ -46,7 +46,7 @@ const check = ({
   if (checkApi) {
     const { getWorkspaces, check } = checkApi();
 
-    const workspaces = isValidManifest(file)
+    const workspaces = file && isValidPath(file)
       ? [...getWorkspaces(), { path: file }]
       : getWorkspaces();
 
