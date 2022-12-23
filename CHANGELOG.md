@@ -15,6 +15,8 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🔨 Chores & Documentation
 
+- Use modern yarn internally
+
 ## [0.3.0] - 2022-06-27
 
 #### 🚀 New Features & Enhancements
