@@ -9,11 +9,14 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🚀 New Features & Enhancements
 
+- Support a -f flag for arbitrary file inclusion in the check
+
 #### 🐛 Bug Fixes
 
 #### 🔨 Chores & Documentation
 
 - Refactored check api to unify across package managers
+- Use Yarn modern internally
 
 ## [0.3.0] - 2022-06-27
 
