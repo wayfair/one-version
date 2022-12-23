@@ -17,9 +17,9 @@ program
     "Verify that only one version of each dependency exists in a monorepo"
   )
   .option("-f, --file <file>", "File path to validate with working dir", null)
-  .action(({file}) => {
+  .action(({ file }) => {
     try {
-      check({file});
+      check({ file });
     } catch (e) {
       console.log(chalk.red(e.message));
       process.exit(1);

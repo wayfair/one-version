@@ -7,7 +7,7 @@ const path = require("path");
 const isValidWorkspace = (filePath) => {
   if (!filePath) {
     return false;
-  } 
+  }
   if (existsSync(path.join(filePath, "package.json"))) {
     return true;
   }
@@ -15,4 +15,4 @@ const isValidWorkspace = (filePath) => {
   throw new Error(`Invalid workspace: ${filePath}`);
 };
 
-module.exports = {isValidWorkspace}
+module.exports = { isValidWorkspace };

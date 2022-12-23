@@ -44,7 +44,7 @@ const check = ({
     throw new Error(UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR);
   }
 
-  const additionalWorkspace = isValidWorkspace(file) ? [{path: file}] : [];
+  const additionalWorkspace = isValidWorkspace(file) ? [{ path: file }] : [];
   const workspaces = [...getWorkspaces(packageManager), ...additionalWorkspace];
 
   const workspaceDependencies = workspaces.map(({ path }) =>
