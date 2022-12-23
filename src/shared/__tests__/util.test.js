@@ -97,10 +97,7 @@ describe("findDuplicateDependencies", () => {
         "react-dom",
         {
           16: { direct: ["mock-app-b"] },
-          17: {
-            direct: ["mock-app-a", "mock-app-c"],
-            peer: ["mock-lib-a"],
-          },
+          17: { direct: ["mock-app-a", "mock-app-c"], peer: ["mock-lib-a"] },
         },
       ],
     ]);
@@ -123,10 +120,7 @@ describe("findDuplicateDependencies", () => {
         "react-dom",
         {
           16: { direct: ["mock-app-b"] },
-          17: {
-            direct: ["mock-app-a", "mock-app-c"],
-            peer: ["mock-lib-a"],
-          },
+          17: { direct: ["mock-app-a", "mock-app-c"], peer: ["mock-lib-a"] },
         },
       ],
     ]);
