@@ -26,7 +26,7 @@ Get a string in the format:
    [type]: [...names], that is:
    direct: name1, name2
 */
-const getTypeString = ({type, names}) => {
+const getTypeString = ({ type, names }) => {
   const padded = type.padStart(DOUBLE_INDENT + type.length);
   return chalk.yellowBright(`${padded}: `) + chalk.white(names.join(', '));
 };
@@ -39,7 +39,7 @@ const format = (packages) => {
       const versionsStr = Object.entries(versions)
         .map(([version, depTypes]) => {
           const depTypeStrings = Object.entries(depTypes).map(([type, names]) =>
-            getTypeString({type, names})
+            getTypeString({ type, names })
           );
 
           return getVersionString(version, depTypeStrings);
@@ -51,4 +51,4 @@ const format = (packages) => {
     .join('\n');
 };
 
-module.exports = {format};
+module.exports = { format };

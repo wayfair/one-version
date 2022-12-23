@@ -1,12 +1,12 @@
-const { readFileSync, existsSync } = require("fs");
-const path = require("path");
+const { readFileSync, existsSync } = require('fs');
+const path = require('path');
 const {
   DEPENDENCY_TYPES,
   CONFIG_FILE,
   YARN_RC,
   YARN_LOCK,
   PNPM_LOCK,
-} = require("./constants");
+} = require('./constants');
 
 /**
  * Parse a config file if it exists
@@ -14,8 +14,8 @@ const {
 const parseConfig = (configFilePath = CONFIG_FILE) => {
   const configPath = path.join(process.cwd(), configFilePath);
   const configContents = existsSync(configPath)
-    ? readFileSync(configPath, { encoding: "utf-8" })
-    : "{}";
+    ? readFileSync(configPath, { encoding: 'utf-8' })
+    : '{}';
   return JSON.parse(configContents);
 };
 
@@ -23,8 +23,8 @@ const parseConfig = (configFilePath = CONFIG_FILE) => {
  * Read the manifest at a specified path, return only the fields we care about
  */
 const getPackageDeps = (packageRoot) => {
-  const packageContents = readFileSync(path.join(packageRoot, "package.json"), {
-    encoding: "utf8",
+  const packageContents = readFileSync(path.join(packageRoot, 'package.json'), {
+    encoding: 'utf8',
   });
   const { name, peerDependencies, devDependencies, dependencies } =
     JSON.parse(packageContents);
@@ -167,15 +167,21 @@ const findDuplicateDependencies = (dependencies, overrides) => {
 const detectPackageManager = () => {
   if (existsSync(YARN_LOCK)) {
     if (existsSync(YARN_RC)) {
-      return "berry";
+      return 'berry';
     }
-    return "yarn";
+    return 'yarn';
   }
   if (existsSync(PNPM_LOCK)) {
-    return "pnpm";
+    return 'pnpm';
   }
-  return "";
+  return '';
 };
+
+/**
+ * Validate manifest file
+ */
+const isValidManifest = (filePath) =>
+  existsSync(filePath) && path.basename(filePath) === 'package.json';
 
 module.exports = {
   parseConfig,
@@ -183,4 +189,5 @@ module.exports = {
   transformDependencies,
   findDuplicateDependencies,
   detectPackageManager,
+  isValidManifest,
 };

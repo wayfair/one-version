@@ -1,9 +1,9 @@
-const { execSync } = require("child_process");
+const { execSync } = require('child_process');
 
 const getWorkspaces = () => {
   const workspaces = JSON.parse(
     execSync(`pnpm list -r --json --depth -1`, {
-      encoding: "utf8",
+      encoding: 'utf8',
     })
   );
 
