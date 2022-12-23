@@ -9,6 +9,8 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🚀 New Features & Enhancements
 
+- Support a -f flag for arbitrary file inclusion in the check
+
 #### 🐛 Bug Fixes
 
 #### 🔨 Chores & Documentation
