@@ -12,12 +12,10 @@ const { getWorkspaces } = require("./get-workspaces");
  * to be updated to check lockfiles as well (hence why it has been separated
  *  from the yarn api)
  */
-const checkPnpm = () => {
-  return {
-    getWorkspaces,
-    check: _basePnpmCheck,
-  };
-};
+const checkPnpm = () => ({
+  getWorkspaces,
+  check: _basePnpmCheck,
+});
 
 const _basePnpmCheck = ({ overrides, workspaces }) => {
   const packageDeps = workspaces.map(({ path }) => getPackageDeps(path));
