@@ -2,9 +2,9 @@ const {
   getPackageDeps,
   findDuplicateDependencies,
   transformDependencies,
-} = require('../shared/util');
-const classicApi = require('./classic-api');
-const berryApi = require('./berry-api');
+} = require("../shared/util");
+const classicApi = require("./classic-api");
+const berryApi = require("./berry-api");
 
 const checkYarn = () => {
   return {

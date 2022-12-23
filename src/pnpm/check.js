@@ -2,8 +2,8 @@ const {
   getPackageDeps,
   findDuplicateDependencies,
   transformDependencies,
-} = require('../shared/util');
-const { getWorkspaces } = require('./get-workspaces');
+} = require("../shared/util");
+const { getWorkspaces } = require("./get-workspaces");
 
 /**
  * TODO

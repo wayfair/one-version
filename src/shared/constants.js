@@ -1,19 +1,19 @@
-const CONFIG_FILE = 'oneversion.config.json';
+const CONFIG_FILE = "oneversion.config.json";
 
-const YARN_LOCK = 'yarn.lock';
-const PNPM_LOCK = 'pnpm-lock.yaml';
-const YARN_RC = '.yarnrc.yml';
+const YARN_LOCK = "yarn.lock";
+const PNPM_LOCK = "pnpm-lock.yaml";
+const YARN_RC = ".yarnrc.yml";
 
 const DEPENDENCY_TYPES = {
-  DIRECT: 'direct',
-  PEER: 'peer',
-  DEV: 'dev',
+  DIRECT: "direct",
+  PEER: "peer",
+  DEV: "dev",
 };
 
 const UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR =
-  'Unable to detect a package manager. Try installing dependencies.';
+  "Unable to detect a package manager. Try installing dependencies.";
 const FAILED_CHECK_ERROR =
-  'More than one version of dependencies found. See above output.';
+  "More than one version of dependencies found. See above output.";
 const NO_CHECK_API_ERROR = `'check' api not supported for package manager:`;
 
 module.exports = {

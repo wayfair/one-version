@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+const chalk = require("chalk");
 
 const SINGLE_INDENT = 2;
 const DOUBLE_INDENT = SINGLE_INDENT * 2;
@@ -16,8 +16,8 @@ Get a string in the format:
 const getVersionString = (version, dependencyTypeStrings) => {
   return (
     chalk.magentaBright(version.padStart(SINGLE_INDENT + version.length)) +
-    '\n' +
-    dependencyTypeStrings.join('\n')
+    "\n" +
+    dependencyTypeStrings.join("\n")
   );
 };
 
@@ -28,7 +28,7 @@ Get a string in the format:
 */
 const getTypeString = ({ type, names }) => {
   const padded = type.padStart(DOUBLE_INDENT + type.length);
-  return chalk.yellowBright(`${padded}: `) + chalk.white(names.join(', '));
+  return chalk.yellowBright(`${padded}: `) + chalk.white(names.join(", "));
 };
 
 const format = (packages) => {
@@ -44,11 +44,11 @@ const format = (packages) => {
 
           return getVersionString(version, depTypeStrings);
         })
-        .join('\n');
+        .join("\n");
 
       return `${str}\n${versionsStr}`;
     })
-    .join('\n');
+    .join("\n");
 };
 
 module.exports = { format };

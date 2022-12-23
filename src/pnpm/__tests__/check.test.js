@@ -1,42 +1,42 @@
-const { checkPnpm } = require('../check');
+const { checkPnpm } = require("../check");
 
 const MOCK_COMPATIBLE_WORKSPACES = [
   {
-    name: 'mock-app-a',
-    path: 'src/__fixtures__/mock-app-a',
+    name: "mock-app-a",
+    path: "src/__fixtures__/mock-app-a",
     private: true,
   },
   {
-    name: 'mock-app-c',
-    path: 'src/__fixtures__/mock-app-c',
+    name: "mock-app-c",
+    path: "src/__fixtures__/mock-app-c",
     private: true,
   },
   {
-    name: 'mock-lib-a',
-    path: 'src/__fixtures__/mock-lib-a',
-    version: '1.2.0',
+    name: "mock-lib-a",
+    path: "src/__fixtures__/mock-lib-a",
+    version: "1.2.0",
   },
 ];
 
 const MOCK_INCOMPATIBLE_WORKSPACES = [
   {
-    name: 'mock-app-b',
-    path: 'src/__fixtures__/mock-app-b',
+    name: "mock-app-b",
+    path: "src/__fixtures__/mock-app-b",
     private: true,
   },
 ];
 
 const MOCK_OVERRIDES = {
   jest: {
-    '^26.5': ['mock-app-b'],
+    "^26.5": ["mock-app-b"],
   },
-  'react-dom': {
-    16: ['mock-app-b'],
+  "react-dom": {
+    16: ["mock-app-b"],
   },
 };
 
-describe('pnpm: check', () => {
-  it('succeeds when only one version exists for each dependency and a config file exists', () => {
+describe("pnpm: check", () => {
+  it("succeeds when only one version exists for each dependency and a config file exists", () => {
     const { duplicateDependencies } = checkPnpm({
       overrides: MOCK_OVERRIDES,
       getPackageRoots: () => MOCK_COMPATIBLE_WORKSPACES,
@@ -45,7 +45,7 @@ describe('pnpm: check', () => {
     expect(duplicateDependencies).toEqual([]);
   });
 
-  it('succeeds when only one version exists for each dependency and a config file does not exist', () => {
+  it("succeeds when only one version exists for each dependency and a config file does not exist", () => {
     const { duplicateDependencies } = checkPnpm({
       overrides: {},
       getPackageRoots: () => MOCK_COMPATIBLE_WORKSPACES,
@@ -53,7 +53,7 @@ describe('pnpm: check', () => {
     expect(duplicateDependencies).toEqual([]);
   });
 
-  it('succeeds when multiple versions are allowed by the config file', () => {
+  it("succeeds when multiple versions are allowed by the config file", () => {
     const workspaces = [
       ...MOCK_COMPATIBLE_WORKSPACES,
       ...MOCK_INCOMPATIBLE_WORKSPACES,
@@ -67,7 +67,7 @@ describe('pnpm: check', () => {
     expect(duplicateDependencies).toEqual([]);
   });
 
-  it('fails when multiple versions exist for a dependency', () => {
+  it("fails when multiple versions exist for a dependency", () => {
     const workspaces = [
       ...MOCK_COMPATIBLE_WORKSPACES,
       ...MOCK_INCOMPATIBLE_WORKSPACES,
@@ -79,19 +79,19 @@ describe('pnpm: check', () => {
 
     expect(duplicateDependencies).toEqual([
       [
-        'jest',
+        "jest",
         {
-          '^27.2': { direct: ['mock-app-a', 'mock-app-c'] },
-          '^26.5': { direct: ['mock-app-b'] },
+          "^27.2": { direct: ["mock-app-a", "mock-app-c"] },
+          "^26.5": { direct: ["mock-app-b"] },
         },
       ],
       [
-        'react-dom',
+        "react-dom",
         {
-          16: { direct: ['mock-app-b'] },
+          16: { direct: ["mock-app-b"] },
           17: {
-            direct: ['mock-app-a', 'mock-app-c'],
-            peer: ['mock-lib-a'],
+            direct: ["mock-app-a", "mock-app-c"],
+            peer: ["mock-lib-a"],
           },
         },
       ],
