@@ -81,7 +81,7 @@ describe("one-version: check", () => {
     }).toThrow(FAILED_CHECK_ERROR);
   });
 
-  it.only("includes the manifest at -f in the check", () => {
+  it("includes the manifest at -f in the check", () => {
     const mockDetectPackageManager = jest.fn();
     mockDetectPackageManager.mockReturnValue(packageManager);
 
