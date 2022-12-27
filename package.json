@@ -10,11 +10,8 @@
   "repository": "git@github.com:wayfair/one-version.git",
   "author": "finn-orsini <orsini.seraphina@gmail.com>",
   "license": "MIT",
-  "files": [
-    "src/**/*.js",
-    "!src/**/*.test.js",
-    "!src/__fixtures__/**/*"
-  ],
+  "private": false,
+  "files": ["src/**/*.js", "!src/**/*.test.js", "!src/__fixtures__/**/*"],
   "scripts": {
     "test": "jest",
     "lint": "eslint src/**/*.js",
