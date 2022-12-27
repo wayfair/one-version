@@ -15,7 +15,7 @@ any real-time space (eg. Slack, Discord, etc).
 
 ## Development & Pull Requests
 
-- Ensure you have [`node`](https://nodejs.org/en/download/package-manager/) and [`yarn`](https://classic.yarnpkg.com/lang/en/docs/install/) installed
+- Ensure you have [`node`](https://nodejs.org/en/download/package-manager/) and [`yarn`](https://yarnpkg.com/getting-started/install) installed
 
 - [Fork the repo](https://help.github.com/articles/fork-a-repo/) and create your branch from main
 

@@ -32,6 +32,8 @@ node_modules
 # Yarn directory
 .pnp.*
 .yarn/*
+.yarn/install-state.gz
+!.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
