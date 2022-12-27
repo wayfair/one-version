@@ -3,7 +3,6 @@ const {
   findDuplicateDependencies,
 } = require("../dependency-util");
 const { getPackageDeps } = require("../../shared/read-dependencies");
-const fs = require("fs");
 
 jest.mock("fs", () => ({
   ...jest.requireActual("fs"),
