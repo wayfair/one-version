@@ -80,4 +80,38 @@ describe("one-version: check", () => {
       });
     }).toThrow(FAILED_CHECK_ERROR);
   });
+
+  it.only("includes the manifest at -f in the check", () => {
+    const mockDetectPackageManager = jest.fn();
+    mockDetectPackageManager.mockReturnValue(packageManager);
+
+    const mockGetPackageDeps = jest.fn().mockReturnValue({});
+    const mockIsValidWorkspace = jest.fn().mockReturnValue(true);
+    const mockGetWorkspaces = jest.fn().mockReturnValue([]);
+
+    check({
+      file: "some-existent-path",
+      getPackageManager: mockDetectPackageManager,
+      getConfig: mockGetConfig,
+      getDependencies: mockGetPackageDeps,
+      getWorkspaces: mockGetWorkspaces,
+      validateWorkspace: mockIsValidWorkspace,
+    });
+
+    expect(mockGetPackageDeps).toHaveBeenCalledWith("some-existent-path");
+  });
+
+  it("throws if -f flag is invalid", () => {
+    const mockDetectPackageManager = jest.fn();
+    mockDetectPackageManager.mockReturnValue(packageManager);
+
+    expect(() => {
+      check({
+        file: "non-existent-path",
+        getPackageManager: mockDetectPackageManager,
+        getConfig: mockGetConfig,
+        getCheckApi: mockGetMissingPackageApi,
+      });
+    }).toThrow("Invalid workspace: non-existent-path");
+  });
 });
