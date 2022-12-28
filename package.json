@@ -28,5 +28,6 @@
   "dependencies": {
     "chalk": "^4",
     "commander": "^9.1"
-  }
+  },
+  "packageManager": "yarn@3.3.1"
 }

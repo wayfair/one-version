@@ -20,7 +20,7 @@ jobs:
           node-version: 14.x
           cache: yarn
       - name: Validate cache
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
   test:
     name: Run Jest Tests
@@ -34,7 +34,7 @@ jobs:
           node-version: 14.x
           cache: yarn
       - name: install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: test
         run: yarn test
 
@@ -50,7 +50,7 @@ jobs:
           node-version: 14.x
           cache: yarn
       - name: install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: lint
         run: yarn lint
       - name: markdown lint
@@ -68,6 +68,6 @@ jobs:
           node-version: 14.x
           cache: yarn
       - name: install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: format-check
         run: yarn format:check
