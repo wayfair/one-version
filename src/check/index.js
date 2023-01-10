@@ -14,6 +14,7 @@ const {
   getPackageDeps,
   getWorkspacesForPackageManager,
   detectPackageManager,
+  isValidWorkspace,
 } = require("../shared");
 
 const {
@@ -29,11 +30,14 @@ const _getDuplicateDependencies = ({ workspaceDependencies, overrides }) => {
 };
 
 const check = ({
+  file,
   getPackageManager = detectPackageManager,
   getConfig = parseConfig,
+  getDependencies = getPackageDeps,
   prettify = format,
   getWorkspaces = getWorkspacesForPackageManager,
   getDuplicateDependencies = _getDuplicateDependencies,
+  validateWorkspace = isValidWorkspace,
 } = {}) => {
   const { overrides } = getConfig();
 
@@ -42,10 +46,11 @@ const check = ({
     throw new Error(UNABLE_TO_DETECT_PACKAGE_MANAGER_ERROR);
   }
 
-  const workspaces = getWorkspaces(packageManager);
+  const additionalWorkspace = validateWorkspace(file) ? [{ path: file }] : [];
+  const workspaces = [...getWorkspaces(packageManager), ...additionalWorkspace];
 
   const workspaceDependencies = workspaces.map(({ path }) =>
-    getPackageDeps(path)
+    getDependencies(path)
   );
 
   const duplicateDependencies = getDuplicateDependencies({
