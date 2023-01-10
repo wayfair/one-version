@@ -92,7 +92,7 @@ describe("one-version: check", () => {
       getPackageManager: () => packageManager,
       getConfig: mockGetConfig,
       getDependencies: mockGetPackageDeps,
-      getWorkspaces: () => [{path: "some-workspace"}],
+      getWorkspaces: () => [{ path: "some-workspace" }],
       validateWorkspace: () => true,
     });
 
