@@ -86,18 +86,17 @@ describe("one-version: check", () => {
     mockDetectPackageManager.mockReturnValue(packageManager);
 
     const mockGetPackageDeps = jest.fn().mockReturnValue({});
-    const mockIsValidWorkspace = jest.fn().mockReturnValue(true);
-    const mockGetWorkspaces = jest.fn().mockReturnValue([]);
 
     check({
       file: "some-existent-path",
-      getPackageManager: mockDetectPackageManager,
+      getPackageManager: () => packageManager,
       getConfig: mockGetConfig,
       getDependencies: mockGetPackageDeps,
-      getWorkspaces: mockGetWorkspaces,
-      validateWorkspace: mockIsValidWorkspace,
+      getWorkspaces: () => [{path: "some-workspace"}],
+      validateWorkspace: () => true,
     });
 
+    expect(mockGetPackageDeps).toHaveBeenCalledWith("some-workspace");
     expect(mockGetPackageDeps).toHaveBeenCalledWith("some-existent-path");
   });
 
