@@ -9,9 +9,15 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🚀 New Features & Enhancements
 
-- Support a -f flag for arbitrary file inclusion in the check
-
 #### 🐛 Bug Fixes
+
+#### 🔨 Chores & Documentation
+
+## [0.4.0] - 2023-02-15
+
+#### 🚀 New Features & Enhancements
+
+- Support a -f flag for arbitrary file inclusion in the check
 
 #### 🔨 Chores & Documentation
 
