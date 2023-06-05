@@ -19,6 +19,6 @@ jobs:
         with:
           token: ${{ secrets.NPM_AUTH_TOKEN }}
 
-      - if: steps.publish.outputs.type != 'none'
+      - if: ${{ steps.publish.outputs.type }}
         run: |
           echo "Published new version: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
