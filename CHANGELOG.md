@@ -13,6 +13,12 @@ This changelog format is largely based on [Keep A Changelog](https://keepachange
 
 #### 🔨 Chores & Documentation
 
+## [0.5.0] - 2023-06-05
+
+#### 💥 Breaking Changes
+
+- Drop support for Node 14 (#43)
+
 ## [0.4.0] - 2023-02-15
 
 #### 🚀 New Features & Enhancements
