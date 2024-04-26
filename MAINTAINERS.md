@@ -5,4 +5,5 @@
 - [ballercat](https://github.com/ballercat)
 - [erj826](https://github.com/erj826)
 - [ndreckshage](https://github.com/ndreckshage)
+- [hamlim](https://github.com/hamlim)
 - [akiryk](https://github.com/akiryk)
