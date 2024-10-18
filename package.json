@@ -32,5 +32,5 @@
     "chalk": "^4",
     "commander": "^10"
   },
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@4.5.1"
 }
