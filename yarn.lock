@@ -1043,7 +1043,7 @@ __metadata:
   resolution: "@wayfair/one-version@workspace:."
   dependencies:
     chalk: ^4
-    commander: ^10
+    commander: ^14.0.0
     eslint: ^8.34.0
     jest: ^29.4.3
     markdownlint-cli: ^0.33.0
@@ -1522,10 +1522,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^10":
-  version: 10.0.1
-  resolution: "commander@npm:10.0.1"
-  checksum: 436901d64a818295803c1996cd856621a74f30b9f9e28a588e726b2b1670665bccd7c1a77007ebf328729f0139838a88a19265858a0fa7a8728c4656796db948
+"commander@npm:^14.0.0":
+  version: 14.0.3
+  resolution: "commander@npm:14.0.3"
+  checksum: b8440159124aefbb02784a8996cd0481d8ce503d8d3cd413f4289d06db7e912c36b511277c2faba62f59152dd9ff79239d75e3b9400d9402851878994201d429
   languageName: node
   linkType: hard
 
